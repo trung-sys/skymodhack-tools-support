@@ -1,0 +1,248 @@
+/* Dragon cursor styles */
+#dragon-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    width: 160px;
+    height: 60px;
+    will-change: transform;
+}
+
+.dragon-glow-outer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 80px;
+    background: radial-gradient(circle, 
+        rgba(255,0,0,0.4) 0%, 
+        rgba(255,0,0,0.3) 30%,
+        rgba(255,0,0,0.2) 60%,
+        rgba(255,0,0,0) 100%
+    );
+    border-radius: 50%;
+    animation: pulse-outer 3s ease-in-out infinite;
+    filter: blur(3px);
+    mix-blend-mode: screen;
+}
+
+.dragon-glow-inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 180px;
+    height: 70px;
+    background: radial-gradient(circle, 
+        rgba(255,0,0,0.6) 0%, 
+        rgba(255,0,0,0.4) 30%,
+        rgba(255,0,0,0.3) 60%,
+        rgba(255,0,0,0) 100%
+    );
+    border-radius: 50%;
+    animation: pulse-inner 2s ease-in-out infinite;
+    filter: blur(2px);
+    mix-blend-mode: screen;
+}
+
+.dragon-body {
+    filter: drop-shadow(0 0 15px rgba(0,0,0,0.9));
+}
+
+.dragon-head {
+    filter: drop-shadow(0 0 10px rgba(0,0,0,0.9));
+}
+
+.dragon-eye {
+    filter: drop-shadow(0 0 8px #FF0000);
+    animation: glow 1.5s ease-in-out infinite alternate;
+}
+
+.dragon-eye-shine {
+    filter: drop-shadow(0 0 3px #FFFFFF);
+}
+
+.dragon-horns, .dragon-spikes {
+    filter: drop-shadow(0 0 5px #FF0000);
+    animation: horn-glow 2s ease-in-out infinite alternate;
+}
+
+.dragon-scales {
+    stroke-dasharray: 4;
+    animation: scale-flow 2s linear infinite;
+}
+
+.trail-dot {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: radial-gradient(circle, 
+        rgba(255,0,0,0.8) 0%,
+        rgba(255,0,0,0.4) 50%,
+        rgba(255,0,0,0) 100%
+    );
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    opacity: 0.7;
+    filter: blur(4px);
+    box-shadow: 0 0 12px #FF0000;
+}
+
+.dragon-tail {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: #000000;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9997;
+    opacity: 0.8;
+    filter: drop-shadow(0 0 8px #FF0000);
+    transition: all 0.1s ease-out;
+    transform-origin: center;
+    will-change: transform;
+}
+
+.dragon-tail::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    border-radius: inherit;
+    transform: translate(-50%, -50%);
+    filter: blur(2px);
+    opacity: 0.6;
+}
+
+.particle {
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    background: radial-gradient(circle, 
+        rgba(255,100,0,0.9) 0%,
+        rgba(255,50,0,0.6) 50%,
+        rgba(255,0,0,0) 100%
+    );
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9996;
+    will-change: transform, opacity;
+    filter: blur(1px);
+}
+
+.fireball {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle, 
+        rgba(255,255,0,1) 0%,
+        rgba(255,200,0,0.9) 20%,
+        rgba(255,100,0,0.8) 40%,
+        rgba(255,50,0,0.6) 60%,
+        rgba(255,0,0,0.4) 80%,
+        rgba(255,0,0,0) 100%
+    );
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9996;
+    will-change: transform, opacity;
+    filter: blur(2px);
+    box-shadow: 
+        0 0 15px #FFD700,
+        0 0 30px #FF6600,
+        0 0 45px #FF3300;
+}
+
+.fireball::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200%;
+    height: 200%;
+    background: inherit;
+    border-radius: inherit;
+    transform: translate(-50%, -50%);
+    filter: blur(8px);
+    opacity: 0.4;
+    animation: fireballPulse 0.3s ease-out infinite alternate;
+}
+
+/* Button interaction effects */
+button, a {
+    transition: all 0.3s ease;
+}
+
+button:hover, a:hover {
+    animation: buttonHover 0.5s ease-in-out;
+}
+
+@keyframes buttonHover {
+    0% { transform: scale(1); filter: brightness(1); }
+    50% { transform: scale(1.05); filter: brightness(1.2); }
+    100% { transform: scale(1); filter: brightness(1); }
+}
+
+@keyframes fireballPulse {
+    from { transform: translate(-50%, -50%) scale(1); opacity: 0.4; }
+    to { transform: translate(-50%, -50%) scale(1.8); opacity: 0.1; }
+}
+
+@keyframes scale-flow {
+    to { stroke-dashoffset: -8; }
+}
+
+@keyframes glow {
+    from { filter: drop-shadow(0 0 8px #FF0000); }
+    to { filter: drop-shadow(0 0 20px #FF0000); }
+}
+
+@keyframes horn-glow {
+    from { filter: drop-shadow(0 0 5px #FF0000); }
+    to { filter: drop-shadow(0 0 15px #FF0000); }
+}
+
+@keyframes pulse-outer {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; }
+    50% { transform: translate(-50%, -50%) scale(1.5) rotate(180deg); opacity: 0.6; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; }
+}
+
+@keyframes pulse-inner {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+    50% { transform: translate(-50%, -50%) scale(1.4) rotate(-180deg); opacity: 0.8; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+}
+
+/* Fire impact effect for buttons */
+.fire-impact {
+    position: absolute;
+    pointer-events: none;
+    z-index: 9995;
+    animation: fireImpact 0.5s ease-out forwards;
+}
+
+@keyframes fireImpact {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    #dragon-container, .trail-dot, .dragon-tail, .particle, .fireball {
+        display: none;
+    }
+}
