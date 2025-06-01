@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nạp tiền - SKYMODHACK</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-[#1a0b2e] text-white font-montserrat">
+    <div id="dragon-container" class="fixed pointer-events-none z-50" style="width: 160px; height: 60px; transform: translate(-50%, -50%);">
+        <div class="dragon-glow-outer"></div>
+        <div class="dragon-glow-inner"></div>
+    </div>
+    <!-- Header/Navigation -->
+    <header class="fixed w-full top-0 z-50 bg-[#1a0b2e]/90 backdrop-blur-sm">
+        <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-gamepad text-2xl"></i>
+                <a href="index.html" class="text-xl font-bold">SKYMODHACK</a>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-6 stagger-children">
+                <a href="index.html" class="text-sm hover:text-pink-500 transition-colors should-animate" data-tooltip="Trang chủ">Trang chủ</a>
+                <a href="shop.html" class="text-sm hover:text-pink-500 transition-colors should-animate" data-tooltip="Xem danh sách key">Cửa hàng key</a>
+                <a href="topup.html" class="text-sm text-pink-500 transition-colors should-animate" data-tooltip="Nạp tiền vào tài khoản">Nạp tiền</a>
+                <a href="history.html" class="text-sm hover:text-pink-500 transition-colors should-animate" data-tooltip="Xem lịch sử mua hàng">Lịch sử đơn hàng</a>
+                <a href="contact.html" class="text-sm hover:text-pink-500 transition-colors should-animate" data-tooltip="Liên hệ với chúng tôi">Liên hệ</a>
+                <div class="relative group">
+                    <button class="text-sm hover:text-pink-500 transition-colors should-animate flex items-center" data-tooltip="Thay đổi ngôn ngữ">
+                        <i class="fas fa-globe mr-1"></i>
+                        <span class="current-lang">Tiếng Việt</span>
+                        <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                    </button>
+                    <div class="absolute right-0 mt-2 py-2 w-48 bg-[#2a1b3e] rounded-lg shadow-xl hidden group-hover:block">
+                        <a href="#" class="block px-4 py-2 hover:bg-pink-500/10 transition-colors lang-option" data-lang="vi">
+                            <i class="fas fa-check mr-2 opacity-0"></i>Tiếng Việt
+                        </a>
+                        <a href="#" class="block px-4 py-2 hover:bg-pink-500/10 transition-colors lang-option" data-lang="en">
+                            <i class="fas fa-check mr-2 opacity-0"></i>English
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-4 stagger-children">
+                <button class="px-6 py-2 rounded-lg border border-pink-500 text-pink-500 hover:bg-pink-500 hover:text-white transition-all duration-300 transform hover:scale-105 neon-box should-animate">
+                    <i class="fas fa-sign-in-alt mr-2"></i>ĐĂNG NHẬP
+                </button>
+                <button class="px-6 py-2 rounded-lg bg-pink-500 text-white hover:bg-pink-600 transition-all duration-300 transform hover:scale-105 neon-box should-animate">
+                    <i class="fas fa-user-plus mr-2"></i>ĐĂNG KÝ
+                </button>
+            </div>
+            
+            <!-- Mobile menu button -->
+            <button class="md:hidden text-2xl">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+        
+        <!-- Mobile menu (hidden by default) -->
+        <div class="md:hidden hidden">
+            <div class="px-4 py-3 space-y-3">
+                <a href="index.html" class="block hover:text-pink-500 transition-colors">Trang chủ</a>
+                <a href="shop.html" class="block hover:text-pink-500 transition-colors">Cửa hàng key</a>
+                <a href="topup.html" class="block text-pink-500 transition-colors">Nạp tiền</a>
+                <a href="history.html" class="block hover:text-pink-500 transition-colors">Lịch sử đơn hàng</a>
+                <a href="contact.html" class="block hover:text-pink-500 transition-colors">Liên hệ</a>
+                <div class="block hover:text-pink-500 transition-colors">
+                    <select class="bg-transparent w-full" id="mobileLangSelect">
+                        <option value="vi">Tiếng Việt</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+                <div class="space-y-3 pt-3">
+                    <button class="w-full px-6 py-2 rounded-lg border border-pink-500 text-pink-500 hover:bg-pink-500 hover:text-white transition-colors">
+                        <i class="fas fa-sign-in-alt mr-2"></i>ĐĂNG NHẬP
+                    </button>
+                    <button class="w-full px-6 py-2 rounded-lg bg-pink-500 text-white hover:bg-pink-600 transition-colors">
+                        <i class="fas fa-user-plus mr-2"></i>ĐĂNG KÝ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="min-h-screen pt-24 pb-12">
+        <div class="container mx-auto px-4">
+            <h1 class="text-3xl font-bold mb-8">Nạp tiền vào tài khoản</h1>
+
+            <!-- Payment Methods Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Bank Transfer -->
+                <div class="bg-[#2a1b3e] rounded-lg p-6 border border-pink-500/30 hover:border-pink-500/50 transition-all duration-300">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-university text-3xl text-pink-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">Chuyển khoản ngân hàng</h3>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="bg-[#1a0b2e] p-4 rounded-lg">
+                            <p class="text-sm text-gray-400 mb-1">Số tài khoản</p>
+                            <div class="flex items-center justify-between">
+                                <span class="font-mono text-lg">1234567890</span>
+                                <button class="text-pink-500 hover:text-pink-400" onclick="copyToClipboard('1234567890')">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bg-[#1a0b2e] p-4 rounded-lg">
+                            <p class="text-sm text-gray-400 mb-1">Chủ tài khoản</p>
+                            <div class="flex items-center justify-between">
+                                <span class="font-mono text-lg">NGUYEN VAN A</span>
+                                <button class="text-pink-500 hover:text-pink-400" onclick="copyToClipboard('NGUYEN VAN A')">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bg-[#1a0b2e] p-4 rounded-lg">
+                            <p class="text-sm text-gray-400 mb-1">Ngân hàng</p>
+                            <span>Vietcombank</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Momo -->
+                <div class="bg-[#2a1b3e] rounded-lg p-6 border border-pink-500/30 hover:border-pink-500/50 transition-all duration-300">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-mobile-alt text-3xl text-pink-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">Ví Momo</h3>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="bg-[#1a0b2e] p-4 rounded-lg">
+                            <p class="text-sm text-gray-400 mb-1">Số điện thoại</p>
+                            <div class="flex items-center justify-between">
+                                <span class="font-mono text-lg">0987654321</span>
+                                <button class="text-pink-500 hover:text-pink-400" onclick="copyToClipboard('0987654321')">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bg-[#1a0b2e] p-4 rounded-lg">
+                            <p class="text-sm text-gray-400 mb-1">Chủ ví</p>
+                            <span>Nguyen Van A</span>
+                        </div>
+                        <div class="bg-[#1a0b2e] p-4 rounded-lg text-center">
+                            <img src="https://via.placeholder.com/200x200.png?text=Momo+QR" alt="Momo QR Code" class="mx-auto rounded-lg">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card -->
+                <div class="bg-[#2a1b3e] rounded-lg p-6 border border-pink-500/30 hover:border-pink-500/50 transition-all duration-300">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-credit-card text-3xl text-pink-500 mr-4"></i>
+                        <h3 class="text-xl font-bold">Thẻ cào</h3>
+                    </div>
+                    <form class="space-y-4">
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-1">Loại thẻ</label>
+                            <select class="w-full px-4 py-2 rounded-lg bg-[#1a0b2e] border border-pink-500/30 focus:border-pink-500 transition-colors">
+                                <option value="viettel">Viettel</option>
+                                <option value="mobifone">Mobifone</option>
+                                <option value="vinaphone">Vinaphone</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-1">Mã thẻ</label>
+                            <input type="text" class="w-full px-4 py-2 rounded-lg bg-[#1a0b2e] border border-pink-500/30 focus:border-pink-500 transition-colors" placeholder="Nhập mã thẻ">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-1">Số serial</label>
+                            <input type="text" class="w-full px-4 py-2 rounded-lg bg-[#1a0b2e] border border-pink-500/30 focus:border-pink-500 transition-colors" placeholder="Nhập số serial">
+                        </div>
+                        <button type="submit" class="w-full px-6 py-3 rounded-lg bg-pink-500 text-white hover:bg-pink-600 transition-colors flex items-center justify-center space-x-2">
+                            <i class="fas fa-check"></i>
+                            <span>Nạp thẻ</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Payment Instructions -->
+            <div class="mt-8 bg-[#2a1b3e] rounded-lg p-6">
+                <h3 class="text-xl font-bold mb-4">Hướng dẫn nạp tiền</h3>
+                <div class="space-y-4">
+                    <div class="flex items-start">
+                        <div class="w-8 h-8 rounded-full bg-pink-500/20 flex items-center justify-center mr-4 mt-1">
+                            <span class="text-pink-500">1</span>
+                        </div>
+                        <p>Chọn phương thức nạp tiền phù hợp với bạn (Chuyển khoản ngân hàng, Ví Momo hoặc Thẻ cào).</p>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="w-8 h-8 rounded-full bg-pink-500/20 flex items-center justify-center mr-4 mt-1">
+                            <span class="text-pink-500">2</span>
+                        </div>
+                        <p>Thực hiện giao dịch theo thông tin được cung cấp. Đối với chuyển khoản, vui lòng ghi rõ nội dung chuyển khoản là tên tài khoản của bạn.</p>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="w-8 h-8 rounded-full bg-pink-500/20 flex items-center justify-center mr-4 mt-1">
+                            <span class="text-pink-500">3</span>
+                        </div>
+                        <p>Sau khi giao dịch thành công, số dư tài khoản của bạn sẽ được cập nhật tự động trong vòng 1-5 phút.</p>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="w-8 h-8 rounded-full bg-pink-500/20 flex items-center justify-center mr-4 mt-1">
+                            <span class="text-pink-500">4</span>
+                        </div>
+                        <p>Nếu cần hỗ trợ, vui lòng liên hệ với chúng tôi qua mục Liên hệ.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/dragon.js"></script>
+    <script>
+        // Copy to clipboard functionality
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Show success message
+                const toast = document.createElement('div');
+                toast.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg transform transition-all duration-300';
+                toast.textContent = 'Đã sao chép!';
+                document.body.appendChild(toast);
+                
+                // Remove toast after 2 seconds
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    setTimeout(() => toast.remove(), 300);
+                }, 2000);
+            });
+        }
+
+        // Language switcher functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const langOptions = document.querySelectorAll('.lang-option');
+            const currentLang = document.querySelector('.current-lang');
+            const mobileLangSelect = document.getElementById('mobileLangSelect');
+
+            // Desktop language switcher
+            langOptions.forEach(option => {
+                option.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const lang = option.dataset.lang;
+                    const text = option.textContent;
+                    
+                    // Update current language text
+                    currentLang.textContent = text;
+                    
+                    // Update checkmarks
+                    langOptions.forEach(opt => {
+                        opt.querySelector('i').classList.add('opacity-0');
+                    });
+                    option.querySelector('i').classList.remove('opacity-0');
+                    
+                    // Update mobile select
+                    mobileLangSelect.value = lang;
+                });
+            });
+
+            // Mobile language switcher
+            mobileLangSelect.addEventListener('change', () => {
+                const lang = mobileLangSelect.value;
+                const text = mobileLangSelect.options[mobileLangSelect.selectedIndex].text;
+                
+                // Update desktop language display
+                currentLang.textContent = text;
+                
+                // Update checkmarks in desktop dropdown
+                langOptions.forEach(opt => {
+                    const optLang = opt.dataset.lang;
+                    opt.querySelector('i').classList.toggle('opacity-0', optLang !== lang);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
