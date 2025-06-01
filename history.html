@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch sử đơn hàng - SKYMODHACK</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-[#1a0b2e] text-white font-montserrat">
+    <div id="dragon-container" class="fixed pointer-events-none z-50" style="width: 160px; height: 60px; transform: translate(-50%, -50%);">
+        <div class="dragon-glow-outer"></div>
+        <div class="dragon-glow-inner"></div>
+    </div>
+    <!-- Header/Navigation -->
+    <header class="fixed w-full top-0 z-50 bg-[#1a0b2e]/90 backdrop-blur-sm">
+        <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-gamepad text-2xl"></i>
+                <a href="index.html" class="text-xl font-bold">SKYMODHACK</a>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-6 stagger-children">
+                <a href="index.html" class="text-sm hover:text-pink-500 transition-colors should-animate" data-tooltip="Trang chủ">Trang chủ</a>
+                <a href="shop.html" class="text-sm hover:text-pink-500 transition-colors should-animate" data-tooltip="Xem danh sách key">Cửa hàng key</a>
+                <a href="topup.html" class="text-sm hover:text-pink-500 transition-colors should-animate" data-tooltip="Nạp tiền vào tài khoản">Nạp tiền</a>
+                <a href="history.html" class="text-sm text-pink-500 transition-colors should-animate" data-tooltip="Xem lịch sử mua hàng">Lịch sử đơn hàng</a>
+                <a href="contact.html" class="text-sm hover:text-pink-500 transition-colors should-animate" data-tooltip="Liên hệ với chúng tôi">Liên hệ</a>
+                <div class="relative group">
+                    <button class="text-sm hover:text-pink-500 transition-colors should-animate flex items-center" data-tooltip="Thay đổi ngôn ngữ">
+                        <i class="fas fa-globe mr-1"></i>
+                        <span class="current-lang">Tiếng Việt</span>
+                        <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                    </button>
+                    <div class="absolute right-0 mt-2 py-2 w-48 bg-[#2a1b3e] rounded-lg shadow-xl hidden group-hover:block">
+                        <a href="#" class="block px-4 py-2 hover:bg-pink-500/10 transition-colors lang-option" data-lang="vi">
+                            <i class="fas fa-check mr-2 opacity-0"></i>Tiếng Việt
+                        </a>
+                        <a href="#" class="block px-4 py-2 hover:bg-pink-500/10 transition-colors lang-option" data-lang="en">
+                            <i class="fas fa-check mr-2 opacity-0"></i>English
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-4 stagger-children">
+                <button class="px-6 py-2 rounded-lg border border-pink-500 text-pink-500 hover:bg-pink-500 hover:text-white transition-all duration-300 transform hover:scale-105 neon-box should-animate">
+                    <i class="fas fa-sign-in-alt mr-2"></i>ĐĂNG NHẬP
+                </button>
+                <button class="px-6 py-2 rounded-lg bg-pink-500 text-white hover:bg-pink-600 transition-all duration-300 transform hover:scale-105 neon-box should-animate">
+                    <i class="fas fa-user-plus mr-2"></i>ĐĂNG KÝ
+                </button>
+            </div>
+            
+            <!-- Mobile menu button -->
+            <button class="md:hidden text-2xl">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+        
+        <!-- Mobile menu (hidden by default) -->
+        <div class="md:hidden hidden">
+            <div class="px-4 py-3 space-y-3">
+                <a href="index.html" class="block hover:text-pink-500 transition-colors">Trang chủ</a>
+                <a href="shop.html" class="block hover:text-pink-500 transition-colors">Cửa hàng key</a>
+                <a href="topup.html" class="block hover:text-pink-500 transition-colors">Nạp tiền</a>
+                <a href="history.html" class="block text-pink-500 transition-colors">Lịch sử đơn hàng</a>
+                <a href="contact.html" class="block hover:text-pink-500 transition-colors">Liên hệ</a>
+                <div class="block hover:text-pink-500 transition-colors">
+                    <select class="bg-transparent w-full" id="mobileLangSelect">
+                        <option value="vi">Tiếng Việt</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+                <div class="space-y-3 pt-3">
+                    <button class="w-full px-6 py-2 rounded-lg border border-pink-500 text-pink-500 hover:bg-pink-500 hover:text-white transition-colors">
+                        <i class="fas fa-sign-in-alt mr-2"></i>ĐĂNG NHẬP
+                    </button>
+                    <button class="w-full px-6 py-2 rounded-lg bg-pink-500 text-white hover:bg-pink-600 transition-colors">
+                        <i class="fas fa-user-plus mr-2"></i>ĐĂNG KÝ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="min-h-screen pt-24 pb-12">
+        <div class="container mx-auto px-4">
+            <h1 class="text-3xl font-bold mb-8">Lịch sử đơn hàng</h1>
+
+            <!-- Filters -->
+            <div class="mb-6 flex flex-wrap gap-4">
+                <div class="relative">
+                    <input type="text" placeholder="Tìm kiếm đơn hàng..." class="w-full md:w-64 px-4 py-2 rounded-lg bg-[#2a1b3e] border border-pink-500/30 focus:border-pink-500 transition-colors">
+                    <i class="fas fa-search absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                </div>
+                <select class="px-4 py-2 rounded-lg bg-[#2a1b3e] border border-pink-500/30 focus:border-pink-500 transition-colors">
+                    <option value="all">Tất cả trạng thái</option>
+                    <option value="completed">Đã hoàn thành</option>
+                    <option value="pending">Đang xử lý</option>
+                    <option value="cancelled">Đã hủy</option>
+                </select>
+                <select class="px-4 py-2 rounded-lg bg-[#2a1b3e] border border-pink-500/30 focus:border-pink-500 transition-colors">
+                    <option value="newest">Mới nhất</option>
+                    <option value="oldest">Cũ nhất</option>
+                </select>
+            </div>
+
+            <!-- Orders Table -->
+            <div class="bg-[#2a1b3e] rounded-lg overflow-hidden border border-pink-500/30">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b border-pink-500/30">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Mã đơn hàng</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Sản phẩm</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Ngày mua</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Giá</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Trạng thái</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-pink-500/30">
+                            <!-- Order 1 -->
+                            <tr class="hover:bg-pink-500/5 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="font-mono">#ORD001</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center">
+                                        <img src="https://via.placeholder.com/40" alt="Product" class="w-10 h-10 rounded-lg mr-3">
+                                        <span>Aimbot Premium</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    01/06/2025
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="text-pink-500">$29.99</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 py-1 text-xs rounded-full bg-green-500/20 text-green-500 border border-green-500/30">
+                                        Hoàn thành
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <button class="text-pink-500 hover:text-pink-400 transition-colors">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <!-- Order 2 -->
+                            <tr class="hover:bg-pink-500/5 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="font-mono">#ORD002</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center">
+                                        <img src="https://via.placeholder.com/40" alt="Product" class="w-10 h-10 rounded-lg mr-3">
+                                        <span>ESP Wallhack</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    01/06/2025
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="text-pink-500">$24.99</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 py-1 text-xs rounded-full bg-yellow-500/20 text-yellow-500 border border-yellow-500/30">
+                                        Đang xử lý
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <button class="text-pink-500 hover:text-pink-400 transition-colors">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <!-- Add more order rows here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="mt-6 flex justify-between items-center">
+                <div class="text-sm text-gray-400">
+                    Hiển thị 1-10 trong tổng số 25 đơn hàng
+                </div>
+                <div class="flex space-x-2">
+                    <button class="w-10 h-10 rounded-lg border border-pink-500/30 hover:border-pink-500 flex items-center justify-center transition-colors">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="w-10 h-10 rounded-lg bg-pink-500 text-white flex items-center justify-center">1</button>
+                    <button class="w-10 h-10 rounded-lg border border-pink-500/30 hover:border-pink-500 flex items-center justify-center transition-colors">2</button>
+                    <button class="w-10 h-10 rounded-lg border border-pink-500/30 hover:border-pink-500 flex items-center justify-center transition-colors">3</button>
+                    <button class="w-10 h-10 rounded-lg border border-pink-500/30 hover:border-pink-500 flex items-center justify-center transition-colors">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/dragon.js"></script>
+    <script>
+        // Language switcher functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const langOptions = document.querySelectorAll('.lang-option');
+            const currentLang = document.querySelector('.current-lang');
+            const mobileLangSelect = document.getElementById('mobileLangSelect');
+
+            // Desktop language switcher
+            langOptions.forEach(option => {
+                option.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const lang = option.dataset.lang;
+                    const text = option.textContent;
+                    
+                    // Update current language text
+                    currentLang.textContent = text;
+                    
+                    // Update checkmarks
+                    langOptions.forEach(opt => {
+                        opt.querySelector('i').classList.add('opacity-0');
+                    });
+                    option.querySelector('i').classList.remove('opacity-0');
+                    
+                    // Update mobile select
+                    mobileLangSelect.value = lang;
+                });
+            });
+
+            // Mobile language switcher
+            mobileLangSelect.addEventListener('change', () => {
+                const lang = mobileLangSelect.value;
+                const text = mobileLangSelect.options[mobileLangSelect.selectedIndex].text;
+                
+                // Update desktop language display
+                currentLang.textContent = text;
+                
+                // Update checkmarks in desktop dropdown
+                langOptions.forEach(opt => {
+                    const optLang = opt.dataset.lang;
+                    opt.querySelector('i').classList.toggle('opacity-0', optLang !== lang);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
