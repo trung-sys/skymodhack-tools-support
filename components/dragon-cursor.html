@@ -1,0 +1,177 @@
+<!-- Dragon Effect Container -->
+<div id="dragon-container">
+    <div class="dragon-glow-outer"></div>
+    <div class="dragon-glow-inner"></div>
+    <svg width="160" height="60" viewBox="0 0 240 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Dragon Body -->
+        <path d="M200 50L160 35L120 50L80 35L40 50L20 35L40 65L80 50L120 65L160 50L200 65" 
+              fill="#000000" class="dragon-body"/>
+        
+        <!-- Dragon Head -->
+        <path d="M200 35L220 50L200 65L180 50L200 35Z" 
+              fill="#000000" class="dragon-head"/>
+        
+        <!-- Dragon Eyes -->
+        <circle cx="205" cy="45" r="4" fill="#FF0000" class="dragon-eye left"/>
+        <circle cx="205" cy="55" r="4" fill="#FF0000" class="dragon-eye right"/>
+        
+        <!-- Dragon Eye Shine -->
+        <circle cx="206" cy="44" r="2" fill="#FF6666" class="dragon-eye-shine left"/>
+        <circle cx="206" cy="54" r="2" fill="#FF6666" class="dragon-eye-shine right"/>
+        
+        <!-- Dragon Horns -->
+        <path d="M215 40L225 30M215 60L225 70" 
+              stroke="#FF0000" stroke-width="4" class="dragon-horns"/>
+        
+        <!-- Dragon Spikes -->
+        <path d="M180 35L190 25L200 35M140 30L150 20L160 30M100 35L110 25L120 35M60 30L70 20L80 30" 
+              stroke="#FF0000" stroke-width="3" class="dragon-spikes"/>
+              
+        <!-- Dragon Scales -->
+        <path d="M160 50C160 50 140 45 120 50C100 55 80 50 60 45C40 40 20 45 20 45" 
+              stroke="#FF0000" stroke-width="1" class="dragon-scales" opacity="0.5"/>
+    </svg>
+</div>
+
+<style>
+#dragon-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    width: 160px;
+    height: 60px;
+    will-change: transform;
+}
+
+.dragon-glow-outer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 180px;
+    height: 70px;
+    background: radial-gradient(circle, 
+        rgba(255,0,0,0.3) 0%, 
+        rgba(255,0,0,0.2) 30%,
+        rgba(255,0,0,0.1) 60%,
+        rgba(255,0,0,0) 100%
+    );
+    border-radius: 50%;
+    animation: pulse-outer 3s ease-in-out infinite;
+    filter: blur(2px);
+}
+
+.dragon-glow-inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 160px;
+    height: 60px;
+    background: radial-gradient(circle, 
+        rgba(255,0,0,0.4) 0%, 
+        rgba(255,0,0,0.3) 30%,
+        rgba(255,0,0,0.2) 60%,
+        rgba(255,0,0,0) 100%
+    );
+    border-radius: 50%;
+    animation: pulse-inner 2s ease-in-out infinite;
+    filter: blur(1px);
+}
+
+.dragon-body {
+    filter: drop-shadow(0 0 15px rgba(0,0,0,0.9));
+}
+
+.dragon-head {
+    filter: drop-shadow(0 0 10px rgba(0,0,0,0.9));
+}
+
+.dragon-eye {
+    filter: drop-shadow(0 0 8px #FF0000);
+    animation: glow 1.5s ease-in-out infinite alternate;
+}
+
+.dragon-eye-shine {
+    filter: drop-shadow(0 0 3px #FFFFFF);
+}
+
+.dragon-horns, .dragon-spikes {
+    filter: drop-shadow(0 0 5px #FF0000);
+    animation: horn-glow 2s ease-in-out infinite alternate;
+}
+
+.dragon-scales {
+    stroke-dasharray: 4;
+    animation: scale-flow 2s linear infinite;
+}
+
+@keyframes scale-flow {
+    to {
+        stroke-dashoffset: -8;
+    }
+}
+
+@keyframes glow {
+    from { filter: drop-shadow(0 0 8px #FF0000); }
+    to { filter: drop-shadow(0 0 20px #FF0000); }
+}
+
+@keyframes horn-glow {
+    from { filter: drop-shadow(0 0 5px #FF0000); }
+    to { filter: drop-shadow(0 0 15px #FF0000); }
+}
+
+.trail-dot {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: #FF0000;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    opacity: 0.7;
+    filter: blur(4px);
+    box-shadow: 0 0 12px #FF0000;
+}
+
+.dragon-tail {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: #000000;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9997;
+    opacity: 0.8;
+    filter: drop-shadow(0 0 8px #FF0000);
+    transition: all 0.1s ease-out;
+    transform-origin: center;
+    will-change: transform;
+}
+
+.dragon-tail::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    border-radius: inherit;
+    transform: translate(-50%, -50%);
+    filter: blur(2px);
+    opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+    #dragon-container, .trail-dot, .dragon-tail {
+        display: none;
+    }
+}
+</style>
+
+<script src="js/dragon.js"></script>
