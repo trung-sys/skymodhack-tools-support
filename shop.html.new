@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="vi">
+<!-- Rest of the head and body content remains the same until scripts section -->
+
+    <!-- Scripts -->
+    <script type="module" src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/monster.js"></script>
+
+    <script>
+        // Game data handling
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const gameId = urlParams.get('game');
+
+            const games = {
+                rov: {
+                    title: 'ROV Mobile',
+                    description: 'Arena of Valor (ROV) là game MOBA mobile phổ biến với hàng triệu người chơi. Chúng tôi cung cấp các công cụ hỗ trợ chơi game chất lượng cao.',
+                    image: 'https://images.pexels.com/photos/7862657/pexels-photo-7862657.jpeg'
+                },
+                pubg: {
+                    title: 'PUBG Mobile',
+                    description: 'PlayerUnknown\'s Battlegrounds Mobile là game battle royale hàng đầu trên mobile. Trải nghiệm các tính năng hỗ trợ độc quyền từ chúng tôi.',
+                    image: 'https://images.pexels.com/photos/7862511/pexels-photo-7862511.jpeg'
+                }
+            };
+
+            if (gameId && games[gameId]) {
+                const game = games[gameId];
+                document.getElementById('game-title').textContent = game.title;
+                document.getElementById('game-description').textContent = game.description;
+                document.getElementById('game-image').src = game.image;
+                document.title = `${game.title} - SKYMODHACK`;
+            }
+        });
+    </script>
+</body>
+</html>
