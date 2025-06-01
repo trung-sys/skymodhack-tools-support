@@ -1,0 +1,150 @@
+/* Theme Variables */
+:root[data-theme="dark"] {
+    --bg-primary: #1a0b2e;
+    --bg-secondary: #2a1b3e;
+    --text-primary: #ffffff;
+    --text-secondary: #94a3b8;
+    --accent-primary: #ec4899;
+    --accent-secondary: #be185d;
+}
+
+:root[data-theme="light"] {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f1f5f9;
+    --text-primary: #1a0b2e;
+    --text-secondary: #475569;
+    --accent-primary: #ec4899;
+    --accent-secondary: #be185d;
+}
+
+/* Theme Transitions */
+body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Theme-specific styles */
+body[data-theme="dark"] {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+body[data-theme="dark"] .\[\#1a0b2e\] {
+    background-color: var(--bg-primary);
+}
+
+body[data-theme="dark"] .\[\#2a1b3e\] {
+    background-color: var(--bg-secondary);
+}
+
+body[data-theme="light"] {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+body[data-theme="light"] .\[\#1a0b2e\] {
+    background-color: var(--bg-primary);
+}
+
+body[data-theme="light"] .\[\#2a1b3e\] {
+    background-color: var(--bg-secondary);
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    position: relative;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+}
+
+.theme-toggle .moon-icon,
+.theme-toggle .sun-icon {
+    position: absolute;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+body[data-theme="dark"] .moon-icon {
+    opacity: 1;
+    transform: rotate(0deg);
+}
+
+body[data-theme="dark"] .sun-icon {
+    opacity: 0;
+    transform: rotate(90deg);
+}
+
+body[data-theme="light"] .moon-icon {
+    opacity: 0;
+    transform: rotate(-90deg);
+}
+
+body[data-theme="light"] .sun-icon {
+    opacity: 1;
+    transform: rotate(0deg);
+}
+
+/* Language Selector */
+.lang-option {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.lang-option:hover {
+    background-color: var(--accent-primary);
+    color: white;
+}
+
+.lang-option .fa-check {
+    transition: opacity 0.3s ease;
+}
+
+/* Neon Effects */
+.neon-box {
+    position: relative;
+    overflow: hidden;
+}
+
+.neon-box::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: inherit;
+    z-index: -1;
+}
+
+.neon-box:hover::before {
+    opacity: 0.5;
+}
+
+/* Status Dot Animation */
+.status-dot {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.95);
+        opacity: 0.5;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0.95);
+        opacity: 0.5;
+    }
+}
