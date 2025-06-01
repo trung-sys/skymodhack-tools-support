@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SKYMODHACK - Gaming Tools & Support</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/themes.css">
+</head>
+<body class="bg-[#1a0b2e] text-white font-montserrat">
+    <div id="dragon-container" class="fixed pointer-events-none z-50" style="width: 160px; height: 60px; transform: translate(-50%, -50%);">
+        <div class="dragon-glow-outer"></div>
+        <div class="dragon-glow-inner"></div>
+    </div>
+    <!-- Header/Navigation -->
+    <header class="fixed w-full top-0 z-50 bg-[#1a0b2e]/90 backdrop-blur-sm">
+        <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-gamepad text-2xl"></i>
+                <span class="text-xl font-bold">SKYMODHACK</span>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-6 stagger-children">
+                <a href="index.html" class="text-sm text-pink-500 transition-colors should-animate" data-tooltip="Trang chủ" data-translate="home">Trang chủ</a>
+                <a href="shop.html" class="text-sm hover:text-pink-500 transition-colors should-animate" data-tooltip="Xem danh sách key" data-translate="shop">Cửa hàng key</a>
+                <a href="topup.html" class="text-sm hover:text-pink-500 transition-colors should-animate" data-tooltip="Nạp tiền vào tài khoản" data-translate="topup">Nạp tiền</a>
+                <a href="history.html" class="text-sm hover:text-pink-500 transition-colors should-animate" data-tooltip="Xem lịch sử mua hàng" data-translate="history">Lịch sử đơn hàng</a>
+                <a href="contact.html" class="text-sm hover:text-pink-500 transition-colors should-animate" data-tooltip="Liên hệ với chúng tôi" data-translate="contact">Liên hệ</a>
+                <!-- Theme Toggle -->
+                <div class="theme-toggle ml-4 cursor-pointer flex items-center justify-center w-10 h-10 rounded-full bg-[#2a1b3e] hover:bg-pink-500/10 transition-all">
+                    <i class="fas fa-moon moon-icon text-pink-500"></i>
+                    <i class="fas fa-sun sun-icon text-pink-500 hidden"></i>
+                </div>
+
+                <!-- Language Selector -->
+                <div class="relative group ml-4">
+                    <button class="text-sm hover:text-pink-500 transition-colors should-animate flex items-center px-4 py-2 rounded-lg bg-[#2a1b3e] hover:bg-pink-500/10" data-tooltip="Change Language">
+                        <i class="fas fa-globe mr-2"></i>
+                        <span class="current-lang">Tiếng Việt</span>
+                        <i class="fas fa-chevron-down ml-2 text-xs"></i>
+                    </button>
+                    <div class="absolute right-0 mt-2 py-2 w-48 bg-[#2a1b3e] rounded-lg shadow-xl hidden group-hover:block border border-pink-500/30">
+                        <a href="#" class="block px-4 py-2 hover:bg-pink-500/10 transition-colors lang-option flex items-center" data-lang="vi">
+                            <i class="fas fa-check mr-2 text-pink-500 opacity-100"></i>Tiếng Việt
+                        </a>
+                        <a href="#" class="block px-4 py-2 hover:bg-pink-500/10 transition-colors lang-option flex items-center" data-lang="en">
+                            <i class="fas fa-check mr-2 text-pink-500 opacity-0"></i>English
+                        </a>
+                    </div>
+                </div>
+                <a href="admin.html" class="text-sm hover:text-pink-500 transition-colors should-animate hidden" data-tooltip="Admin Panel" id="admin-link">
+                    <i class="fas fa-shield-alt mr-1"></i>Admin
+                </a>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-4 stagger-children">
+                <button id="login-btn" class="px-6 py-2 rounded-lg border border-pink-500 text-pink-500 hover:bg-pink-500 hover:text-white transition-all duration-300 transform hover:scale-105 neon-box should-animate">
+                    <i class="fas fa-sign-in-alt mr-2"></i><span data-translate="login">ĐĂNG NHẬP</span>
+                </button>
+                <button id="register-btn" class="px-6 py-2 rounded-lg bg-pink-500 text-white hover:bg-pink-600 transition-all duration-300 transform hover:scale-105 neon-box should-animate">
+                    <i class="fas fa-user-plus mr-2"></i><span data-translate="register">ĐĂNG KÝ</span>
+                </button>
+            </div>
+            
+            <!-- Mobile menu button -->
+            <button class="md:hidden text-2xl">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+        
+            <!-- Mobile menu (hidden by default) -->
+            <div class="md:hidden hidden">
+                <div class="px-4 py-3 space-y-3">
+                    <a href="index.html" class="block text-pink-500 transition-colors">Trang chủ</a>
+                    <a href="shop.html" class="block hover:text-pink-500 transition-colors">Cửa hàng key</a>
+                    <a href="topup.html" class="block hover:text-pink-500 transition-colors">Nạp tiền</a>
+                    <a href="history.html" class="block hover:text-pink-500 transition-colors">Lịch sử đơn hàng</a>
+                    <a href="contact.html" class="block hover:text-pink-500 transition-colors">Liên hệ</a>
+                    <div class="block hover:text-pink-500 transition-colors">
+                        <select class="bg-transparent w-full" id="mobileLangSelect">
+                            <option value="vi">Tiếng Việt</option>
+                            <option value="en">English</option>
+                        </select>
+                    </div>
+                    <a href="admin.html" class="block hover:text-pink-500 transition-colors hidden" id="mobile-admin-link">
+                        <i class="fas fa-shield-alt mr-1"></i>Admin
+                    </a>
+                    <div class="space-y-3 pt-3">
+                        <button id="login-btn-mobile" class="w-full px-6 py-2 rounded-lg border border-pink-500 text-pink-500 hover:bg-pink-500 hover:text-white transition-colors">
+                            <i class="fas fa-sign-in-alt mr-2"></i>ĐĂNG NHẬP
+                        </button>
+                        <button id="register-btn-mobile" class="w-full px-6 py-2 rounded-lg bg-pink-500 text-white hover:bg-pink-600 transition-colors">
+                            <i class="fas fa-user-plus mr-2"></i>ĐĂNG KÝ
+                        </button>
+                    </div>
+                </div>
+            </div>
+    </header>
+
+    <!-- Hero Section -->
+    <main class="min-h-screen pt-20 relative overflow-hidden">
+        <div class="container mx-auto px-4 py-16">
+            <!-- Status indicator -->
+            <div class="inline-flex items-center space-x-2 bg-[#2a1b3e]/50 backdrop-blur-sm rounded-full px-4 py-2 mb-8 transform hover:scale-105 transition-transform duration-300 neon-box should-animate">
+                <span class="w-2 h-2 bg-green-500 rounded-full status-dot"></span>
+                <span class="text-sm neon-glow" data-translate="status">Trạng thái trang web: Trực tuyến</span>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div class="space-y-8 relative z-10 stagger-children">
+                    <h1 class="text-6xl md:text-8xl font-bold leading-tight transform hover:scale-105 transition-transform duration-500 should-animate">
+                        <span class="bg-clip-text text-transparent bg-gradient-to-r from-white via-pink-200 to-pink-500 neon-glow">
+                            Sky Mode<br/>Hack
+                        </span>
+                    </h1>
+                    <p class="text-gray-300 text-lg leading-relaxed" data-translate="description">
+                        Chúng tôi cung cấp key bản quyền và các phần mềm hỗ trợ chơi game chất lượng cao như Aimbot, Wallhack, ESP và nhiều hệ thống hỗ trợ khác. Đi kèm với hướng dẫn sử dụng chi tiết, hỗ trợ tất cả các nền tảng phổ biến. Đội ngũ của chúng tôi luôn sẵn sàng hỗ trợ bạn 24/7.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 should-animate">
+                        <button id="products-btn" class="group px-8 py-4 rounded-lg bg-pink-500 text-white hover:bg-pink-600 transition-all duration-300 transform hover:scale-105 neon-box flex items-center justify-center">
+                            <i class="fas fa-shopping-cart mr-2 group-hover:rotate-12 transition-transform"></i>
+                            <span class="font-semibold" data-translate="products">SẢN PHẨM</span>
+                        </button>
+                        <button id="login-btn" class="group px-8 py-4 rounded-lg border-2 border-pink-500 text-pink-500 hover:bg-pink-500 hover:text-white transition-all duration-300 transform hover:scale-105 neon-box flex items-center justify-center">
+                            <i class="fas fa-sign-in-alt mr-2 group-hover:rotate-12 transition-transform"></i>
+                            <span class="font-semibold">ĐĂNG NHẬP</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="relative">
+                    <img src="https://images.pexels.com/photos/7925847/pexels-photo-7925847.jpeg" 
+                         alt="Gaming Setup" 
+                         class="w-full h-auto object-contain transform hover:scale-105 transition-transform duration-500 mix-blend-screen"
+                         onerror="this.src='https://via.placeholder.com/600x400?text=Gaming+Setup'">
+                    <!-- Enhanced glow effect -->
+                    <div class="absolute inset-0 bg-gradient-to-tr from-pink-500/30 via-purple-500/20 to-blue-500/30 rounded-lg blur-xl"></div>
+                    <!-- Product showcase overlay -->
+                    <div class="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                        <div class="bg-black/70 backdrop-blur-sm p-6 rounded-xl text-center transform hover:scale-105 transition-transform">
+                            <h3 class="text-xl font-bold mb-2">Premium Gaming Tools</h3>
+                            <p class="text-gray-300 mb-4">High-quality gaming enhancements and support</p>
+                            <button class="px-6 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors">
+                                Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enhanced Background Effects -->
+        <div class="absolute inset-0 -z-10">
+            <!-- Dark gradient background -->
+            <div class="absolute inset-0 bg-gradient-to-br from-[#1a0b2e] via-[#2a1b3e] to-[#1a0b2e] opacity-95"></div>
+            
+            <!-- Geometric pattern overlay -->
+            <div class="absolute inset-0">
+                <div class="absolute inset-0 bg-[url('https://images.pexels.com/photos/3075993/pexels-photo-3075993.jpeg')] opacity-5 bg-cover bg-center transform -skew-y-12"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-purple-900/50 to-transparent"></div>
+            </div>
+            
+            <!-- Glowing effects -->
+            <div class="absolute inset-0 bg-gradient-to-tr from-pink-500/10 to-blue-500/10"></div>
+            
+            <!-- Additional geometric shapes -->
+            <div class="absolute top-0 left-0 w-full h-full overflow-hidden">
+                <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-pink-500/5 rounded-full filter blur-3xl"></div>
+                <div class="absolute bottom-1/4 right-1/4 w-64 h-64 bg-blue-500/5 rounded-full filter blur-3xl"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Auth Modals -->
+    <!-- Login Modal -->
+    <div id="login-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-50">
+        <div class="modal-content w-full max-w-md mx-4 rounded-2xl p-8 transform transition-all duration-300 scale-95 opacity-0 bg-[#1a0b2e]">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-bold text-white">Đăng Nhập</h2>
+                <button class="close-modal text-gray-400 hover:text-white transition-colors">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form id="login-form" class="space-y-6">
+                <div class="space-y-2">
+                    <label for="login-email" class="block text-sm font-medium text-gray-400">Email</label>
+                    <input type="email" id="login-email" name="email" required
+                        class="w-full px-4 py-3 rounded-lg bg-[#2a1b3e] border border-pink-500/30 text-white placeholder-gray-500 focus:outline-none focus:border-pink-500 transition-colors"
+                        placeholder="Nhập email của bạn">
+                </div>
+                <div class="space-y-2">
+                    <label for="login-password" class="block text-sm font-medium text-gray-400">Mật khẩu</label>
+                    <input type="password" id="login-password" name="password" required
+                        class="w-full px-4 py-3 rounded-lg bg-[#2a1b3e] border border-pink-500/30 text-white placeholder-gray-500 focus:outline-none focus:border-pink-500 transition-colors"
+                        placeholder="Nhập mật khẩu">
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input type="checkbox" id="remember-me" class="w-4 h-4 rounded border-gray-600 text-pink-500 focus:ring-pink-500">
+                        <label for="remember-me" class="ml-2 text-sm text-gray-400">Ghi nhớ đăng nhập</label>
+                    </div>
+                    <a href="#" class="text-sm text-pink-500 hover:text-pink-400 transition-colors">Quên mật khẩu?</a>
+                </div>
+                <button type="submit"
+                    class="w-full py-3 px-4 rounded-lg bg-pink-500 text-white font-medium hover:bg-pink-600 transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 focus:ring-offset-[#1a0b2e]">
+                    Đăng Nhập
+                </button>
+                <div class="text-center text-sm text-gray-400">
+                    Chưa có tài khoản? 
+                    <button type="button" class="text-pink-500 hover:text-pink-400 transition-colors font-medium show-register">
+                        Đăng ký ngay
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="register-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-50">
+        <div class="modal-content w-full max-w-md mx-4 rounded-2xl p-8 transform transition-all duration-300 scale-95 opacity-0 bg-[#1a0b2e]">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-bold text-white">Đăng Ký</h2>
+                <button class="close-modal text-gray-400 hover:text-white transition-colors">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form id="register-form" class="space-y-6">
+                <div class="space-y-2">
+                    <label for="register-username" class="block text-sm font-medium text-gray-400">Tên người dùng</label>
+                    <input type="text" id="register-username" name="username" required
+                        class="w-full px-4 py-3 rounded-lg bg-[#2a1b3e] border border-pink-500/30 text-white placeholder-gray-500 focus:outline-none focus:border-pink-500 transition-colors"
+                        placeholder="Nhập tên người dùng">
+                </div>
+                <div class="space-y-2">
+                    <label for="register-email" class="block text-sm font-medium text-gray-400">Email</label>
+                    <input type="email" id="register-email" name="email" required
+                        class="w-full px-4 py-3 rounded-lg bg-[#2a1b3e] border border-pink-500/30 text-white placeholder-gray-500 focus:outline-none focus:border-pink-500 transition-colors"
+                        placeholder="Nhập email của bạn">
+                </div>
+                <div class="space-y-2">
+                    <label for="register-password" class="block text-sm font-medium text-gray-400">Mật khẩu</label>
+                    <input type="password" id="register-password" name="password" required
+                        class="w-full px-4 py-3 rounded-lg bg-[#2a1b3e] border border-pink-500/30 text-white placeholder-gray-500 focus:outline-none focus:border-pink-500 transition-colors"
+                        placeholder="Nhập mật khẩu">
+                </div>
+                <div class="space-y-2">
+                    <label for="register-confirm-password" class="block text-sm font-medium text-gray-400">Xác nhận mật khẩu</label>
+                    <input type="password" id="register-confirm-password" name="confirm_password" required
+                        class="w-full px-4 py-3 rounded-lg bg-[#2a1b3e] border border-pink-500/30 text-white placeholder-gray-500 focus:outline-none focus:border-pink-500 transition-colors"
+                        placeholder="Nhập lại mật khẩu">
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" id="terms" required class="w-4 h-4 rounded border-gray-600 text-pink-500 focus:ring-pink-500">
+                    <label for="terms" class="ml-2 text-sm text-gray-400">
+                        Tôi đồng ý với <a href="#" class="text-pink-500 hover:text-pink-400 transition-colors">Điều khoản dịch vụ</a>
+                    </label>
+                </div>
+                <button type="submit"
+                    class="w-full py-3 px-4 rounded-lg bg-pink-500 text-white font-medium hover:bg-pink-600 transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 focus:ring-offset-[#1a0b2e]">
+                    Đăng Ký
+                </button>
+                <div class="text-center text-sm text-gray-400">
+                    Đã có tài khoản? 
+                    <button type="button" class="text-pink-500 hover:text-pink-400 transition-colors font-medium show-login">
+                        Đăng nhập
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notification-container" class="fixed top-4 right-4 z-50 space-y-4"></div>
+
+    <!-- Scripts -->
+    <script type="module" src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/dragon.js"></script>
+    <script src="js/theme-lang.js"></script>
+
+    <!-- Footer -->
+    <footer class="bg-[#1a0b2e] border-t border-pink-500/30 mt-20 relative overflow-hidden">
+      <!-- Glow Effects -->
+      <div class="absolute inset-0 bg-gradient-to-b from-transparent via-pink-500/5 to-transparent pointer-events-none"></div>
+      <div class="absolute -inset-x-40 -bottom-40 h-[500px] bg-gradient-to-t from-pink-500/10 to-transparent rounded-full blur-3xl pointer-events-none"></div>
+      <div class="container mx-auto px-4 py-16">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+          <!-- Logo and Description -->
+          <div class="md:col-span-1">
+            <div class="flex items-center space-x-3 mb-6">
+              <div class="w-12 h-12 bg-gradient-to-br from-pink-500 to-purple-600 rounded-xl flex items-center justify-center transform hover:scale-110 transition-all duration-300 shadow-lg shadow-pink-500/20 relative">
+                <div class="absolute inset-0 bg-gradient-to-br from-pink-500 to-purple-600 rounded-xl blur-lg opacity-50"></div>
+                <i class="fas fa-gamepad text-2xl text-white"></i>
+              </div>
+              <h3 class="text-2xl font-bold text-white tracking-wide">SKYMODHACK</h3>
+            </div>
+            <p class="text-sm text-gray-400 leading-relaxed">
+              Chúng tôi cung cấp key bản quyền và các phần mềm hỗ trợ chơi game chất lượng cao.
+            </p>
+          </div>
+          
+          <!-- Quick Links -->
+          <div class="md:col-span-1">
+            <h4 class="text-white font-bold mb-6 text-lg">Liên kết</h4>
+            <ul class="space-y-4">
+              <li>
+                <a href="index.html" class="group flex items-center text-gray-400 hover:text-pink-500 transition-all duration-300">
+                  <i class="fas fa-chevron-right text-xs text-pink-500 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all duration-300 mr-2"></i>
+                  <span class="text-sm">Trang chủ</span>
+                </a>
+              </li>
+              <li>
+                <a href="shop.html" class="group flex items-center text-gray-400 hover:text-pink-500 transition-all duration-300">
+                  <i class="fas fa-chevron-right text-xs text-pink-500 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all duration-300 mr-2"></i>
+                  <span class="text-sm">Cửa hàng key</span>
+                </a>
+              </li>
+              <li>
+                <a href="topup.html" class="group flex items-center text-gray-400 hover:text-pink-500 transition-all duration-300">
+                  <i class="fas fa-chevron-right text-xs text-pink-500 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all duration-300 mr-2"></i>
+                  <span class="text-sm">Nạp tiền</span>
+                </a>
+              </li>
+              <li>
+                <a href="history.html" class="group flex items-center text-gray-400 hover:text-pink-500 transition-all duration-300">
+                  <i class="fas fa-chevron-right text-xs text-pink-500 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all duration-300 mr-2"></i>
+                  <span class="text-sm">Lịch sử đơn hàng</span>
+                </a>
+              </li>
+              <li>
+                <a href="contact.html" class="group flex items-center text-gray-400 hover:text-pink-500 transition-all duration-300">
+                  <i class="fas fa-chevron-right text-xs text-pink-500 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all duration-300 mr-2"></i>
+                  <span class="text-sm">Liên hệ</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          
+          <!-- Support -->
+          <div class="md:col-span-1">
+            <h4 class="text-white font-bold mb-6 text-lg">Hỗ trợ</h4>
+            <ul class="space-y-4">
+              <li>
+                <a href="#" class="group flex items-center text-gray-400 hover:text-pink-500 transition-all duration-300">
+                  <i class="fas fa-chevron-right text-xs text-pink-500 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all duration-300 mr-2"></i>
+                  <span class="text-sm">Hướng dẫn sử dụng</span>
+                </a>
+              </li>
+              <li>
+                <a href="#" class="group flex items-center text-gray-400 hover:text-pink-500 transition-all duration-300">
+                  <i class="fas fa-chevron-right text-xs text-pink-500 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all duration-300 mr-2"></i>
+                  <span class="text-sm">Chính sách bảo mật</span>
+                </a>
+              </li>
+              <li>
+                <a href="#" class="group flex items-center text-gray-400 hover:text-pink-500 transition-all duration-300">
+                  <i class="fas fa-chevron-right text-xs text-pink-500 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all duration-300 mr-2"></i>
+                  <span class="text-sm">Điều khoản dịch vụ</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          
+          <!-- Follow Us -->
+          <div class="md:col-span-1">
+            <h4 class="text-white font-bold mb-6 text-lg">Theo dõi chúng tôi</h4>
+            <div class="grid grid-cols-2 gap-6 relative">
+              <!-- Social Media Background Glow -->
+              <div class="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-purple-600/10 rounded-2xl blur-xl opacity-75"></div>
+              <a href="#" class="bg-[#2a1b3e] hover:bg-pink-500 p-5 rounded-xl group transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-pink-500/20 relative flex items-center justify-center">
+                <div class="absolute inset-0 bg-gradient-to-br from-pink-500/20 to-purple-600/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <i class="fab fa-facebook-f text-2xl text-pink-500 group-hover:text-white transition-colors group-hover:animate-pulse relative z-10"></i>
+              </a>
+              <a href="#" class="bg-[#2a1b3e] hover:bg-pink-500 p-5 rounded-xl group transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-pink-500/20 relative flex items-center justify-center">
+                <div class="absolute inset-0 bg-gradient-to-br from-pink-500/20 to-purple-600/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <i class="fab fa-twitter text-2xl text-pink-500 group-hover:text-white transition-colors group-hover:animate-pulse relative z-10"></i>
+              </a>
+              <a href="#" class="bg-[#2a1b3e] hover:bg-pink-500 p-5 rounded-xl group transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-pink-500/20 relative flex items-center justify-center">
+                <div class="absolute inset-0 bg-gradient-to-br from-pink-500/20 to-purple-600/20
