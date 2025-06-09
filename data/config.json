@@ -1,13 +1,119 @@
 {
-  "site": {
-    "name": "SKYMODHACK",
-    "description": "Cung cấp key bản quyền và phần mềm hỗ trợ chơi game",
-    "contact": {
-      "email": "support@skymodhack.com",
-      "phone": "+84 123 456 789"
-    }
-  },
-  "products": [],
-  "categories": [],
-  "orders": []
+    "site": {
+        "name": "SKYMODHACK",
+        "description": "Chúng tôi cung cấp key bản quyền và các phần mềm hỗ trợ chơi game chất lượng cao.",
+        "maintenance": false,
+        "version": "1.0.0",
+        "contact": {
+            "email": "support@skymodhack.com",
+            "discord": "SKYMODHACK#1234",
+            "telegram": "@skymodhack"
+        },
+        "social": {
+            "discord": "https://discord.gg/skymodhack",
+            "telegram": "https://t.me/skymodhack",
+            "facebook": "https://facebook.com/skymodhack",
+            "youtube": "https://youtube.com/skymodhack"
+        }
+    },
+    "payment": {
+        "bank": {
+            "name": "Vietcombank",
+            "account_number": "1234567890",
+            "account_name": "SKYMODHACK"
+        },
+        "momo": {
+            "phone": "0987654321",
+            "name": "SKYMODHACK"
+        }
+    },
+    "packages": [
+        {
+            "id": "pkg_1",
+            "name": "PUBG Hack Premium",
+            "price": 200000,
+            "description": "Bộ hack cao cấp cho PUBG với nhiều tính năng độc quyền",
+            "features": [
+                "Aimbot thông minh",
+                "ESP toàn diện",
+                "Wallhack không giật",
+                "Anti-recoil nâng cao",
+                "Bypass anti-cheat"
+            ],
+            "category": "battle-royale",
+            "duration": "30 ngày",
+            "created_at": "2024-01-01T00:00:00.000Z"
+        },
+        {
+            "id": "pkg_2",
+            "name": "CS:GO Pro Package",
+            "price": 150000,
+            "description": "Gói hack chuyên nghiệp cho CS:GO",
+            "features": [
+                "Aimbot tùy chỉnh",
+                "Wallhack HD",
+                "Triggerbot",
+                "Radar hack",
+                "Skin changer"
+            ],
+            "category": "fps",
+            "duration": "30 ngày",
+            "created_at": "2024-01-01T00:00:00.000Z"
+        },
+        {
+            "id": "pkg_3",
+            "name": "Valorant Ultimate",
+            "price": 300000,
+            "description": "Bộ hack tối ưu cho Valorant với công nghệ mới nhất",
+            "features": [
+                "Aimbot siêu chính xác",
+                "ESP người chơi và vật phẩm",
+                "Wallhack thông minh",
+                "Recoil control system",
+                "Anti-screenshot",
+                "HWID spoofer"
+            ],
+            "category": "fps",
+            "duration": "30 ngày",
+            "created_at": "2024-01-01T00:00:00.000Z"
+        }
+    ],
+    "categories": [
+        {
+            "id": "fps",
+            "name": "FPS Games",
+            "description": "Các phần mềm hỗ trợ cho game bắn súng góc nhìn thứ nhất",
+            "icon": "fas fa-crosshairs"
+        },
+        {
+            "id": "battle-royale",
+            "name": "Battle Royale",
+            "description": "Phần mềm hỗ trợ cho các game battle royale",
+            "icon": "fas fa-users"
+        },
+        {
+            "id": "moba",
+            "name": "MOBA Games",
+            "description": "Script và công cụ hỗ trợ cho game MOBA",
+            "icon": "fas fa-gamepad"
+        },
+        {
+            "id": "mmo",
+            "name": "MMO Games",
+            "description": "Bot và công cụ tự động hóa cho game MMO",
+            "icon": "fas fa-globe"
+        },
+        {
+            "id": "racing",
+            "name": "Racing Games",
+            "description": "Công cụ mod xe và tăng tốc cho các game đua xe",
+            "icon": "fas fa-car"
+        },
+        {
+            "id": "survival",
+            "name": "Survival Games",
+            "description": "ESP và công cụ hỗ trợ sinh tồn cho các game survival",
+            "icon": "fas fa-campground"
+        }
+    ]
 }
