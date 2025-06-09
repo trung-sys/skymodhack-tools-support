@@ -1,23 +1,135 @@
-<!-- Dragon Effect Container -->
-<div id="dragon-container">
-    <div class="dragon-glow-outer"></div>
-    <div class="dragon-glow-inner"></div>
-    <svg width="60" height="60" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Dragon Head Base -->
-        <path d="M50 5L15 50L50 95L85 50L50 5Z" fill="#000000" class="dragon-body"/>
-        
-        <!-- Dragon Eyes -->
-        <circle cx="35" cy="45" r="8" fill="#FF0000" class="dragon-eye left"/>
-        <circle cx="65" cy="45" r="8" fill="#FF0000" class="dragon-eye right"/>
-        
-        <!-- Dragon Eye Shine -->
-        <circle cx="33" cy="43" r="3" fill="#FF6666" class="dragon-eye-shine left"/>
-        <circle cx="63" cy="43" r="3" fill="#FF6666" class="dragon-eye-shine right"/>
-        
-        <!-- Dragon Horns -->
-        <path d="M30 25L15 5M70 25L85 5" stroke="#FF0000" stroke-width="6" class="dragon-horns"/>
-    </svg>
-</div>
+<header class="fixed top-0 left-0 right-0 bg-[#2a1b3e]/80 backdrop-blur-lg border-b border-pink-500/30 z-40">
+    <div class="container mx-auto px-4">
+        <nav class="flex items-center justify-between h-20">
+            <!-- Logo -->
+            <a href="index.html" class="flex items-center space-x-2">
+                <i class="fas fa-gamepad text-2xl text-pink-500"></i>
+                <span class="text-xl font-bold">SKYMODHACK</span>
+            </a>
 
-<!-- Dragon Script -->
-<script src="js/dragon.js"></script>
+            <!-- Navigation Links -->
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="index.html" class="text-gray-400 hover:text-white transition-colors" data-translate="home">
+                    <i class="fas fa-home mr-2"></i>
+                    Trang chủ
+                </a>
+                <a href="shop.html" class="text-gray-400 hover:text-white transition-colors" data-translate="shop">
+                    <i class="fas fa-shopping-cart mr-2"></i>
+                    Cửa hàng
+                </a>
+                <a href="category.html" class="text-gray-400 hover:text-white transition-colors" data-translate="categories">
+                    <i class="fas fa-th-large mr-2"></i>
+                    Danh mục
+                </a>
+                <a href="contact.html" class="text-gray-400 hover:text-white transition-colors" data-translate="contact">
+                    <i class="fas fa-headset mr-2"></i>
+                    Liên hệ
+                </a>
+            </div>
+
+            <!-- User Actions -->
+            <div class="flex items-center space-x-4">
+                <!-- Cart -->
+                <a href="cart.html" class="relative text-gray-400 hover:text-white transition-colors">
+                    <i class="fas fa-shopping-cart text-xl"></i>
+                    <span id="cart-count" class="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-pink-500 text-white text-xs flex items-center justify-center hidden">
+                        0
+                    </span>
+                </a>
+
+                <!-- Theme Toggle -->
+                <button id="theme-toggle" class="text-gray-400 hover:text-white transition-colors">
+                    <i class="fas fa-moon text-xl"></i>
+                </button>
+
+                <!-- Language Toggle -->
+                <button id="lang-toggle" class="px-2 py-1 rounded text-sm font-medium text-gray-400 hover:text-white transition-colors">
+                    VI
+                </button>
+
+                <!-- Guest Actions -->
+                <div id="guest-actions" class="hidden">
+                    <button onclick="showLoginModal()" 
+                            class="px-4 py-2 rounded-lg border border-pink-500 text-pink-500 hover:bg-pink-500 hover:text-white transition-colors"
+                            data-translate="login">
+                        Đăng nhập
+                    </button>
+                </div>
+
+                <!-- User Actions -->
+                <div id="user-actions" class="hidden">
+                    <div class="relative group">
+                        <button class="flex items-center space-x-2 px-4 py-2 rounded-lg bg-[#1a0b2e] border border-pink-500/30">
+                            <span id="username" class="font-medium">Username</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                        
+                        <!-- Dropdown Menu -->
+                        <div class="absolute right-0 mt-2 w-48 rounded-xl bg-[#2a1b3e] border border-pink-500/30 shadow-lg overflow-hidden origin-top-right scale-95 opacity-0 invisible group-hover:scale-100 group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                            <div class="p-4 border-b border-pink-500/30">
+                                <p class="text-sm text-gray-400" data-translate="balance">Số dư:</p>
+                                <p class="user-balance font-bold text-pink-500">0đ</p>
+                            </div>
+                            <div class="py-1">
+                                <a href="history.html" class="flex items-center px-4 py-2 text-sm text-gray-400 hover:text-white hover:bg-pink-500/10 transition-colors">
+                                    <i class="fas fa-history w-5"></i>
+                                    <span data-translate="history">Lịch sử</span>
+                                </a>
+                                <a href="topup.html" class="flex items-center px-4 py-2 text-sm text-gray-400 hover:text-white hover:bg-pink-500/10 transition-colors">
+                                    <i class="fas fa-wallet w-5"></i>
+                                    <span data-translate="topup">Nạp tiền</span>
+                                </a>
+                                <button onclick="auth.logout()" 
+                                        class="w-full flex items-center px-4 py-2 text-sm text-gray-400 hover:text-white hover:bg-pink-500/10 transition-colors">
+                                    <i class="fas fa-sign-out-alt w-5"></i>
+                                    <span data-translate="logout">Đăng xuất</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="md:hidden text-gray-400 hover:text-white transition-colors">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden py-4 hidden">
+            <div class="flex flex-col space-y-4">
+                <a href="index.html" class="text-gray-400 hover:text-white transition-colors" data-translate="home">
+                    <i class="fas fa-home mr-2"></i>
+                    Trang chủ
+                </a>
+                <a href="shop.html" class="text-gray-400 hover:text-white transition-colors" data-translate="shop">
+                    <i class="fas fa-shopping-cart mr-2"></i>
+                    Cửa hàng
+                </a>
+                <a href="category.html" class="text-gray-400 hover:text-white transition-colors" data-translate="categories">
+                    <i class="fas fa-th-large mr-2"></i>
+                    Danh mục
+                </a>
+                <a href="contact.html" class="text-gray-400 hover:text-white transition-colors" data-translate="contact">
+                    <i class="fas fa-headset mr-2"></i>
+                    Liên hệ
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<script>
+// Mobile menu toggle
+document.getElementById('mobile-menu-button')?.addEventListener('click', () => {
+    const mobileMenu = document.getElementById('mobile-menu');
+    const icon = document.querySelector('#mobile-menu-button i');
+    
+    if (mobileMenu && icon) {
+        mobileMenu.classList.toggle('hidden');
+        icon.classList.toggle('fa-bars');
+        icon.classList.toggle('fa-times');
+    }
+});
+</script>
