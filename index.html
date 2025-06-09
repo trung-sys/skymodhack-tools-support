@@ -19,12 +19,11 @@
     <link rel="stylesheet" href="css/themes.css">
 </head>
 <body class="bg-[#1a0b2e] text-white font-montserrat">
-    <div id="dragon-container" class="fixed pointer-events-none z-50" style="width: 160px; height: 60px; transform: translate(-50%, -50%);">
-        <div class="dragon-glow-outer"></div>
-        <div class="dragon-glow-inner"></div>
-    </div>
-    <!-- Header/Navigation -->
-    <header class="fixed w-full top-0 z-50 bg-[#1a0b2e]/90 backdrop-blur-sm">
+    <!-- Include Header -->
+    <div id="header-container"></div>
+
+    <!-- Include Auth Modals -->
+    <div id="auth-modals-container"></div>
         <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-2">
                 <i class="fas fa-gamepad text-2xl"></i>
@@ -282,14 +281,51 @@
     <!-- Notification Container -->
     <div id="notification-container" class="fixed top-4 right-4 z-50 space-y-4"></div>
 
+    <!-- Include Footer -->
+    <div id="footer-container"></div>
+
+    <!-- Notification Container -->
+    <div id="notification-container" class="fixed top-4 right-4 z-50 space-y-4"></div>
+
     <!-- Scripts -->
     <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/admin.js"></script>
     <script src="js/main.js"></script>
     <script src="js/dragon.js"></script>
     <script src="js/theme-lang.js"></script>
+    <script>
+        // Load components
+        fetch('components/header.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-container').innerHTML = html;
+            });
 
-    <!-- Footer -->
-    <footer class="bg-[#1a0b2e] border-t border-pink-500/30 mt-20 relative overflow-hidden">
+        fetch('components/auth-modals.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('auth-modals-container').innerHTML = html;
+            });
+
+        fetch('components/footer.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('footer-container').innerHTML = html;
+            });
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            // Products button click
+            document.getElementById('products-btn')?.addEventListener('click', () => {
+                window.location.href = 'shop.html';
+            });
+
+            // Login button click
+            document.getElementById('login-btn')?.addEventListener('click', () => {
+                document.getElementById('login-modal')?.classList.remove('hidden');
+            });
+        });
+    </script>
       <!-- Glow Effects -->
       <div class="absolute inset-0 bg-gradient-to-b from-transparent via-pink-500/5 to-transparent pointer-events-none"></div>
       <div class="absolute -inset-x-40 -bottom-40 h-[500px] bg-gradient-to-t from-pink-500/10 to-transparent rounded-full blur-3xl pointer-events-none"></div>
