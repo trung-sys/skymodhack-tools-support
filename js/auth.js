@@ -1,244 +1,240 @@
+// Authentication Service
 class AuthService {
     constructor() {
-        this.isAuthenticated = false;
-        this.currentUser = null;
+        this.auth = JSON.parse(localStorage.getItem('auth') || '{}');
         this.init();
     }
 
     init() {
-        // Check if user is already logged in
-        const token = localStorage.getItem('auth_token');
-        const userData = localStorage.getItem('user_data');
-        
-        if (token && userData) {
-            try {
-                this.currentUser = JSON.parse(userData);
-                this.isAuthenticated = true;
-                this.updateUI(true);
-            } catch (e) {
-                console.error('Error parsing user data:', e);
-                this.logout();
-            }
-        }
-
-        // Setup event listeners
-        this.setupEventListeners();
-    }
-
-    setupEventListeners() {
-        // Login form submission
-        const loginForm = document.getElementById('login-form');
-        if (loginForm) {
-            loginForm.addEventListener('submit', (e) => {
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set up form submissions
+            const loginForm = document.getElementById('login-form');
+            loginForm?.addEventListener('submit', (e) => {
                 e.preventDefault();
-                this.handleLogin(
-                    loginForm.querySelector('input[name="email"]').value,
-                    loginForm.querySelector('input[name="password"]').value
-                );
+                this.login(new FormData(loginForm));
             });
-        }
 
-        // Register form submission
-        const registerForm = document.getElementById('register-form');
-        if (registerForm) {
-            registerForm.addEventListener('submit', (e) => {
+            const registerForm = document.getElementById('register-form');
+            registerForm?.addEventListener('submit', (e) => {
                 e.preventDefault();
-                this.handleRegister(
-                    registerForm.querySelector('input[name="email"]').value,
-                    registerForm.querySelector('input[name="password"]').value,
-                    registerForm.querySelector('input[name="confirm_password"]').value,
-                    registerForm.querySelector('input[name="username"]').value
-                );
-            });
-        }
-
-        // Logout button
-        const logoutBtn = document.getElementById('logout-btn');
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', () => this.logout());
-        }
-    }
-
-    async handleLogin(email, password) {
-        try {
-            // In a real application, this would be an API call
-            const mockApiCall = new Promise((resolve, reject) => {
-                // Simulate API delay
-                setTimeout(() => {
-                    // Get users from localStorage (mock database)
-                    const users = JSON.parse(localStorage.getItem('users') || '[]');
-                    const user = users.find(u => u.email === email && u.password === this.hashPassword(password));
-                    
-                    if (user) {
-                        resolve({
-                            token: 'mock_token_' + Date.now(),
-                            user: { ...user, password: undefined }
-                        });
-                    } else {
-                        reject(new Error('Invalid credentials'));
-                    }
-                }, 1000);
+                this.register(new FormData(registerForm));
             });
 
-            const response = await mockApiCall;
-            
-            // Store auth data
-            localStorage.setItem('auth_token', response.token);
-            localStorage.setItem('user_data', JSON.stringify(response.user));
-            
-            this.currentUser = response.user;
-            this.isAuthenticated = true;
-            
             // Update UI
-            this.updateUI(true);
-            
-            // Show success message
-            this.showNotification('Đăng nhập thành công!', 'success');
-            
-            // Redirect to dashboard/home
-            setTimeout(() => {
-                window.location.href = '/index.html';
-            }, 1500);
+            this.updateUI();
+        });
+    }
 
+    get isAuthenticated() {
+        return this.auth.isAuthenticated || false;
+    }
+
+    get currentUser() {
+        return this.auth.user || null;
+    }
+
+    async login(formData) {
+        try {
+            const email = formData.get('email');
+            const password = formData.get('password');
+
+            // Validate input
+            if (!email || !password) {
+                throw new Error('Vui lòng điền đầy đủ thông tin');
+            }
+
+            // Find user
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (!user) {
+                throw new Error('Email hoặc mật khẩu không chính xác');
+            }
+
+            // Update auth state
+            this.auth = {
+                isAuthenticated: true,
+                user: user
+            };
+
+            // Save to localStorage
+            localStorage.setItem('auth', JSON.stringify(this.auth));
+
+            // Update UI
+            this.updateUI();
+
+            // Hide login modal
+            document.getElementById('login-modal')?.classList.add('hidden');
+
+            // Show success message
+            this.showNotification('Đăng nhập thành công', 'success');
+
+            return true;
         } catch (error) {
             console.error('Login error:', error);
-            this.showNotification('Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin!', 'error');
+            this.showNotification(error.message, 'error');
+            return false;
         }
     }
 
-    async handleRegister(email, password, confirmPassword, username) {
+    async register(formData) {
         try {
+            const username = formData.get('username');
+            const email = formData.get('email');
+            const password = formData.get('password');
+            const confirmPassword = formData.get('confirm_password');
+            const agreeTerms = formData.get('agree_terms');
+
+            // Validate input
+            if (!username || !email || !password || !confirmPassword) {
+                throw new Error('Vui lòng điền đầy đủ thông tin');
+            }
+
             if (password !== confirmPassword) {
-                throw new Error('Passwords do not match');
+                throw new Error('Mật khẩu xác nhận không khớp');
             }
 
-            // Validate password strength
-            if (!this.validatePassword(password)) {
-                throw new Error('Password must be at least 8 characters long and contain letters and numbers');
+            if (!agreeTerms) {
+                throw new Error('Vui lòng đồng ý với điều khoản dịch vụ');
             }
 
-            // In a real application, this would be an API call
-            const mockApiCall = new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    // Get existing users
-                    const users = JSON.parse(localStorage.getItem('users') || '[]');
-                    
-                    // Check if user already exists
-                    if (users.some(u => u.email === email)) {
-                        reject(new Error('User already exists'));
-                        return;
-                    }
+            // Validate email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                throw new Error('Email không hợp lệ');
+            }
 
-                    // Create new user
-                    const newUser = {
-                        id: Date.now(),
-                        email,
-                        username,
-                        password: this.hashPassword(password),
-                        created_at: new Date().toISOString()
-                    };
+            // Check if email exists
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            if (users.some(u => u.email === email)) {
+                throw new Error('Email đã được sử dụng');
+            }
 
-                    // Add to "database"
-                    users.push(newUser);
-                    localStorage.setItem('users', JSON.stringify(users));
+            // Create new user
+            const newUser = {
+                id: 'user_' + Date.now(),
+                username,
+                email,
+                password,
+                isAdmin: false,
+                balance: 0,
+                created_at: new Date().toISOString()
+            };
 
-                    resolve({
-                        token: 'mock_token_' + Date.now(),
-                        user: { ...newUser, password: undefined }
-                    });
-                }, 1000);
-            });
+            // Save user
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
 
-            const response = await mockApiCall;
-            
-            // Store auth data
-            localStorage.setItem('auth_token', response.token);
-            localStorage.setItem('user_data', JSON.stringify(response.user));
-            
-            this.currentUser = response.user;
-            this.isAuthenticated = true;
-            
+            // Auto login
+            this.auth = {
+                isAuthenticated: true,
+                user: newUser
+            };
+
+            // Save auth state
+            localStorage.setItem('auth', JSON.stringify(this.auth));
+
             // Update UI
-            this.updateUI(true);
-            
-            // Show success message
-            this.showNotification('Đăng ký thành công!', 'success');
-            
-            // Redirect to dashboard/home
-            setTimeout(() => {
-                window.location.href = '/index.html';
-            }, 1500);
+            this.updateUI();
 
+            // Hide register modal
+            document.getElementById('register-modal')?.classList.add('hidden');
+
+            // Show success message
+            this.showNotification('Đăng ký thành công', 'success');
+
+            return true;
         } catch (error) {
-            console.error('Registration error:', error);
-            this.showNotification(error.message || 'Đăng ký thất bại. Vui lòng thử lại!', 'error');
+            console.error('Register error:', error);
+            this.showNotification(error.message, 'error');
+            return false;
         }
     }
 
     logout() {
-        // Clear auth data
-        localStorage.removeItem('auth_token');
-        localStorage.removeItem('user_data');
-        
-        this.currentUser = null;
-        this.isAuthenticated = false;
-        
+        // Clear auth state
+        this.auth = {};
+        localStorage.setItem('auth', JSON.stringify(this.auth));
+
         // Update UI
-        this.updateUI(false);
-        
+        this.updateUI();
+
         // Show success message
-        this.showNotification('Đăng xuất thành công!', 'success');
-        
-        // Redirect to home
-        window.location.href = '/index.html';
-    }
+        this.showNotification('Đã đăng xuất', 'success');
 
-    updateUI(isAuthenticated) {
-        // Update navigation items
-        const authButtons = document.querySelectorAll('.auth-buttons');
-        const userMenu = document.querySelectorAll('.user-menu');
-        const userNameElements = document.querySelectorAll('.user-name');
-
-        authButtons.forEach(el => {
-            el.style.display = isAuthenticated ? 'none' : 'flex';
-        });
-
-        userMenu.forEach(el => {
-            el.style.display = isAuthenticated ? 'flex' : 'none';
-        });
-
-        if (isAuthenticated && this.currentUser) {
-            userNameElements.forEach(el => {
-                el.textContent = this.currentUser.username;
-            });
+        // Redirect to home if on protected page
+        const protectedPages = ['admin.html', 'history.html', 'topup.html'];
+        const currentPage = window.location.pathname.split('/').pop();
+        if (protectedPages.includes(currentPage)) {
+            window.location.href = 'index.html';
         }
     }
 
-    validatePassword(password) {
-        // Password must be at least 8 characters and contain both letters and numbers
-        return password.length >= 8 && /[A-Za-z]/.test(password) && /[0-9]/.test(password);
+    updateUI() {
+        // Update guest/user actions visibility
+        const guestActions = document.getElementById('guest-actions');
+        const userActions = document.getElementById('user-actions');
+
+        if (guestActions && userActions) {
+            if (this.isAuthenticated) {
+                guestActions.classList.add('hidden');
+                userActions.classList.remove('hidden');
+            } else {
+                guestActions.classList.remove('hidden');
+                userActions.classList.add('hidden');
+            }
+        }
+
+        // Update username display
+        const usernameElement = document.getElementById('username');
+        if (usernameElement && this.currentUser) {
+            usernameElement.textContent = this.currentUser.username;
+        }
+
+        // Update balance display
+        const balanceElements = document.querySelectorAll('.user-balance');
+        if (balanceElements.length > 0 && this.currentUser) {
+            balanceElements.forEach(element => {
+                element.textContent = this.currentUser.balance.toLocaleString('vi-VN') + 'đ';
+            });
+        }
+
+        // Check admin access
+        if (window.location.pathname.endsWith('admin.html') && (!this.isAuthenticated || !this.currentUser?.isAdmin)) {
+            window.location.href = 'index.html';
+        }
     }
 
-    hashPassword(password) {
-        // In a real application, use a proper hashing algorithm
-        // This is just for demonstration
-        return btoa(password);
-    }
+    showNotification(message, type = 'success') {
+        const container = document.createElement('div');
+        container.className = `fixed top-4 right-4 z-50 p-4 rounded-lg ${
+            type === 'success' ? 'bg-green-500' : 'bg-red-500'
+        } text-white shadow-lg transform transition-all duration-300 translate-x-full`;
 
-    showNotification(message, type = 'info') {
-        const notification = document.createElement('div');
-        notification.className = `notification ${type}`;
-        notification.textContent = message;
-        
-        document.body.appendChild(notification);
-        
-        // Remove notification after 3 seconds
+        container.innerHTML = `
+            <div class="flex items-center">
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'} mr-2"></i>
+                <span>${message}</span>
+            </div>
+        `;
+
+        document.body.appendChild(container);
+
+        // Animate in
         setTimeout(() => {
-            notification.remove();
+            container.classList.remove('translate-x-full');
+        }, 100);
+
+        // Remove after 3 seconds
+        setTimeout(() => {
+            container.classList.add('translate-x-full');
+            setTimeout(() => {
+                container.remove();
+            }, 300);
         }, 3000);
     }
 }
 
-// Initialize auth service
+// Create and export auth service instance
 const auth = new AuthService();
 export default auth;
