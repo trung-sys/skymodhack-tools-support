@@ -1,212 +1,247 @@
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM Content Loaded');
+// Import services
+import auth from './auth.js';
+import cart from './cart.js';
+import payment from './payment.js';
+import keys from './keys.js';
+import themeManager from './theme-lang.js';
+import buttonTransformer from './button-transformer.js';
 
-    // Function to navigate to shop page
-    function goToShop(e) {
-        if (e) e.preventDefault();
-        console.log('Navigating to shop page...');
-        window.location.href = 'shop.html';
+// Main Application Class
+class App {
+    constructor() {
+        this.init();
     }
 
-    // Set up product button navigation
-    function setupProductNavigation() {
-        // Main products button
-        const productsBtn = document.getElementById('products-btn');
-        if (productsBtn) {
-            console.log('Found products button:', productsBtn.outerHTML);
-            productsBtn.addEventListener('click', goToShop);
+    init() {
+        // Initialize services
+        this.initializeServices();
+        
+        // Set up event listeners
+        this.setupEventListeners();
+        
+        // Load initial data
+        this.loadInitialData();
+        
+        // Check protected routes
+        this.checkProtectedRoutes();
+    }
+
+    initializeServices() {
+        // Services are auto-initialized on import
+        console.log('Services initialized');
+    }
+
+    setupEventListeners() {
+        document.addEventListener('DOMContentLoaded', () => {
+            // Handle dynamic content loading
+            this.setupDynamicContent();
             
-            // Also try setting onclick directly
-            productsBtn.onclick = goToShop;
-        } else {
-            console.log('Products button not found by ID');
-        }
-
-        // Try finding by text content
-        const buttons = Array.from(document.getElementsByTagName('button'));
-        console.log('All buttons:', buttons.map(b => ({
-            id: b.id,
-            text: b.textContent.trim(),
-            classes: b.className
-        })));
-
-        buttons.forEach(button => {
-            if (button.textContent.trim() === 'SẢN PHẨM') {
-                console.log('Found SẢN PHẨM button:', button.outerHTML);
-                button.addEventListener('click', goToShop);
-                button.onclick = goToShop;
-            }
+            // Handle form submissions
+            this.setupForms();
+            
+            // Handle navigation
+            this.setupNavigation();
         });
-
-        // Shop link in navigation
-        const shopLink = document.querySelector('a[href="shop.html"]');
-        if (shopLink) {
-            console.log('Found shop link:', shopLink.outerHTML);
-            shopLink.addEventListener('click', goToShop);
-        }
     }
 
-    // Initialize product navigation
-    setupProductNavigation();
+    setupDynamicContent() {
+        // Load components
+        this.loadComponents();
 
-    // Shopping cart functionality
-    const cart = {
-        items: [],
-        load() {
-            try {
-                const savedCart = localStorage.getItem('cart');
-                if (savedCart) {
-                    this.items = JSON.parse(savedCart);
-                    this.updateCount();
+        // Handle dynamic updates
+        const observer = new MutationObserver(() => {
+            this.updateUI();
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    }
+
+    loadComponents() {
+        const components = [
+            { id: 'header-container', path: 'components/header.html' },
+            { id: 'footer-container', path: 'components/footer.html' },
+            { id: 'auth-modals-container', path: 'components/auth-modals.html' }
+        ];
+
+        components.forEach(component => {
+            const container = document.getElementById(component.id);
+            if (container) {
+                fetch(component.path)
+                    .then(response => response.text())
+                    .then(html => {
+                        container.innerHTML = html;
+                        this.updateUI();
+                    })
+                    .catch(error => console.error(`Error loading ${component.path}:`, error));
+            }
+        });
+    }
+
+    setupForms() {
+        // Login form
+        const loginForm = document.getElementById('login-form');
+        loginForm?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            auth.login(new FormData(loginForm));
+        });
+
+        // Register form
+        const registerForm = document.getElementById('register-form');
+        registerForm?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            auth.register(new FormData(registerForm));
+        });
+
+        // Topup form
+        const topupForm = document.getElementById('topup-form');
+        topupForm?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            payment.processTopup(new FormData(topupForm));
+        });
+    }
+
+    setupNavigation() {
+        // Handle navigation events
+        window.addEventListener('popstate', () => {
+            this.checkProtectedRoutes();
+        });
+    }
+
+    loadInitialData() {
+        // Load config
+        const config = {
+            payment: {
+                bank: {
+                    name: 'Vietcombank',
+                    account_number: '1234567890',
+                    account_name: 'SKYMODHACK'
+                },
+                momo: {
+                    phone: '0987654321',
+                    name: 'SKYMODHACK'
                 }
-            } catch (error) {
-                console.error('Error loading cart:', error);
-                this.items = [];
+            },
+            site: {
+                name: 'SKYMODHACK',
+                description: 'Chúng tôi cung cấp key bản quyền và các phần mềm hỗ trợ chơi game chất lượng cao.',
+                maintenance: false,
+                version: '1.0.0'
             }
-        },
-        save() {
-            try {
-                localStorage.setItem('cart', JSON.stringify(this.items));
-            } catch (error) {
-                console.error('Error saving cart:', error);
-            }
-        },
-        addItem(item) {
-            const existingItem = this.items.find(i => 
-                i.name === item.name && 
-                i.game === item.game
-            );
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                this.items.push({ ...item, quantity: 1 });
-            }
-            this.save();
-            this.updateCount();
-        },
-        removeItem(index) {
-            this.items.splice(index, 1);
-            this.save();
-            this.updateCount();
-        },
-        updateCount() {
-            const countElement = document.getElementById('cart-count');
-            if (countElement) {
-                const totalItems = this.items.reduce((sum, item) => sum + item.quantity, 0);
-                countElement.textContent = totalItems;
-            }
+        };
+
+        // Save config if not exists
+        if (!localStorage.getItem('config')) {
+            localStorage.setItem('config', JSON.stringify(config));
         }
-    };
 
-    // Initialize cart
-    cart.load();
+        // Load packages
+        const packages = [
+            {
+                id: 'pkg_1',
+                name: 'PUBG Hack Premium',
+                price: 200000,
+                description: 'Bộ hack cao cấp cho PUBG với nhiều tính năng độc quyền',
+                features: [
+                    'Aimbot thông minh',
+                    'ESP toàn diện',
+                    'Wallhack không giật',
+                    'Anti-recoil nâng cao',
+                    'Bypass anti-cheat'
+                ],
+                category: 'battle-royale',
+                duration: '30 ngày',
+                created_at: '2024-01-01T00:00:00.000Z'
+            },
+            {
+                id: 'pkg_2',
+                name: 'CS:GO Pro Package',
+                price: 150000,
+                description: 'Gói hack chuyên nghiệp cho CS:GO',
+                features: [
+                    'Aimbot tùy chỉnh',
+                    'Wallhack HD',
+                    'Triggerbot',
+                    'Radar hack',
+                    'Skin changer'
+                ],
+                category: 'fps',
+                duration: '30 ngày',
+                created_at: '2024-01-01T00:00:00.000Z'
+            },
+            {
+                id: 'pkg_3',
+                name: 'Valorant Ultimate',
+                price: 300000,
+                description: 'Bộ hack tối ưu cho Valorant với công nghệ mới nhất',
+                features: [
+                    'Aimbot siêu chính xác',
+                    'ESP người chơi và vật phẩm',
+                    'Wallhack thông minh',
+                    'Recoil control system',
+                    'Anti-screenshot',
+                    'HWID spoofer'
+                ],
+                category: 'fps',
+                duration: '30 ngày',
+                created_at: '2024-01-01T00:00:00.000Z'
+            }
+        ];
 
-    // Mobile menu functionality
-    const mobileMenuButton = document.querySelector('button.md\\:hidden');
-    const mobileMenu = document.querySelector('div.md\\:hidden.hidden');
-    if (mobileMenuButton && mobileMenu) {
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-            const icon = mobileMenuButton.querySelector('i');
-            icon.classList.toggle('fa-bars');
-            icon.classList.toggle('fa-times');
-        });
+        // Save packages if not exists
+        if (!localStorage.getItem('packages')) {
+            localStorage.setItem('packages', JSON.stringify(packages));
+        }
     }
 
-    // Language handling
-    const langOptions = document.querySelectorAll('.lang-option');
-    const currentLang = document.querySelector('.current-lang');
-    const mobileLangSelect = document.getElementById('mobileLangSelect');
+    checkProtectedRoutes() {
+        const protectedPages = ['admin.html', 'history.html', 'topup.html'];
+        const currentPage = window.location.pathname.split('/').pop();
 
-    if (currentLang || mobileLangSelect || langOptions.length > 0) {
-        const savedLang = localStorage.getItem('language') || 'vi';
-        updateLanguageDisplay(savedLang);
+        if (protectedPages.includes(currentPage)) {
+            if (!auth.isAuthenticated) {
+                window.location.href = 'index.html';
+                return;
+            }
 
-        langOptions.forEach(option => {
-            option.addEventListener('click', (e) => {
-                e.preventDefault();
-                updateLanguage(option.dataset.lang);
+            if (currentPage === 'admin.html' && !auth.currentUser?.isAdmin) {
+                window.location.href = 'index.html';
+                return;
+            }
+        }
+    }
+
+    updateUI() {
+        // Update auth state UI
+        const guestActions = document.getElementById('guest-actions');
+        const userActions = document.getElementById('user-actions');
+        const username = document.getElementById('username');
+        const balanceElements = document.querySelectorAll('.user-balance');
+
+        if (auth.isAuthenticated && auth.currentUser) {
+            guestActions?.classList.add('hidden');
+            userActions?.classList.remove('hidden');
+            if (username) username.textContent = auth.currentUser.username;
+            balanceElements.forEach(el => {
+                el.textContent = auth.userBalance.toLocaleString('vi-VN') + 'đ';
             });
-        });
+        } else {
+            guestActions?.classList.remove('hidden');
+            userActions?.classList.add('hidden');
+        }
 
-        if (mobileLangSelect) {
-            mobileLangSelect.value = savedLang;
-            mobileLangSelect.addEventListener('change', () => {
-                updateLanguage(mobileLangSelect.value);
-            });
+        // Update cart count
+        const cartCount = document.getElementById('cart-count');
+        if (cartCount) {
+            const count = cart.getCount();
+            cartCount.textContent = count;
+            cartCount.classList.toggle('hidden', count === 0);
         }
     }
+}
 
-    function updateLanguage(lang) {
-        localStorage.setItem('language', lang);
-        updateLanguageDisplay(lang);
-    }
-
-    function updateLanguageDisplay(lang) {
-        const currentLang = document.querySelector('.current-lang');
-        const mobileLangSelect = document.getElementById('mobileLangSelect');
-        const langOptions = document.querySelectorAll('.lang-option');
-        
-        if (currentLang) {
-            currentLang.textContent = lang === 'vi' ? 'Tiếng Việt' : 'English';
-        }
-        
-        if (mobileLangSelect) {
-            mobileLangSelect.value = lang;
-        }
-        
-        langOptions.forEach(opt => {
-            const optLang = opt.dataset.lang;
-            const icon = opt.querySelector('i');
-            if (icon) {
-                icon.classList.toggle('opacity-0', optLang !== lang);
-            }
-        });
-    }
-
-    // Status indicator pulse effect
-    const statusDot = document.querySelector('.status-dot');
-    if (statusDot) {
-        setInterval(() => {
-            statusDot.style.opacity = '0.5';
-            setTimeout(() => {
-                statusDot.style.opacity = '1';
-            }, 1000);
-        }, 2000);
-    }
-
-    // Intersection Observer for fade-in animations
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate-fadeInUp');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.1
-    });
-
-    // Observe elements for animation
-    document.querySelectorAll('.should-animate').forEach(el => {
-        observer.observe(el);
-    });
-
-    // Add stagger animation to children
-    document.querySelectorAll('.stagger-children').forEach(parent => {
-        Array.from(parent.children).forEach((child, index) => {
-            child.style.animationDelay = `${index * 0.1}s`;
-        });
-    });
-
-    // Add global click handler for debugging
-    document.addEventListener('click', (e) => {
-        console.log('Click event:', {
-            target: e.target,
-            tagName: e.target.tagName,
-            id: e.target.id,
-            text: e.target.textContent.trim(),
-            classes: e.target.className
-        });
-    });
-});
+// Create and export app instance
+const app = new App();
+export default app;
