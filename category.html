@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Danh mục Game - SKYMODHACK</title>
+    <title>Danh mục - SKYMODHACK</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -11,135 +14,170 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/themes.css">
+    
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+    </style>
 </head>
-<body class="bg-[#1a0b2e] text-white font-montserrat">
-    <!-- Header/Navigation -->
-    <header class="fixed w-full top-0 z-50 bg-[#1a0b2e]/90 backdrop-blur-sm">
-        <!-- Same header as shop.html -->
-    </header>
+
+<body class="bg-[#1a0b2e] text-white min-h-screen flex flex-col">
+    <!-- Include Header -->
+    <div id="header-container"></div>
 
     <!-- Main Content -->
-    <main class="min-h-screen pt-24 pb-12">
-        <div class="container mx-auto px-4">
-            <!-- Categories Header -->
-            <div class="mb-12 text-center">
-                <h1 class="text-4xl font-bold mb-4 bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">Danh Mục Game</h1>
-                <p class="text-gray-400">Chọn game bạn muốn mua key hoặc hack</p>
+    <main class="flex-grow container mx-auto px-4 py-8 mt-20">
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-3xl font-bold">Danh mục</h1>
+                <p class="text-gray-400">Chọn danh mục game bạn muốn</p>
             </div>
-
-            <!-- Game Categories Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- ROV Mobile -->
-                <a href="shop.html?game=rov" class="group">
-                    <div class="bg-[#2a1b3e] rounded-xl overflow-hidden border border-pink-500/30 hover:border-pink-500 transition-all duration-300 transform hover:scale-105">
-                        <div class="relative aspect-video">
-                            <img src="https://images.pexels.com/photos/7862657/pexels-photo-7862657.jpeg" 
-                                 alt="ROV Mobile"
-                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                                 onerror="this.src='https://via.placeholder.com/400x225?text=ROV+Mobile'">
-                            <div class="absolute inset-0 bg-gradient-to-t from-[#1a0b2e] to-transparent opacity-60"></div>
-                            <div class="absolute bottom-4 left-4 right-4">
-                                <h3 class="text-xl font-bold mb-2">ROV Mobile</h3>
-                                <p class="text-sm text-gray-300">Arena of Valor - Game MOBA mobile phổ biến</p>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- PUBG Mobile -->
-                <a href="shop.html?game=pubg" class="group">
-                    <div class="bg-[#2a1b3e] rounded-xl overflow-hidden border border-pink-500/30 hover:border-pink-500 transition-all duration-300 transform hover:scale-105">
-                        <div class="relative aspect-video">
-                            <img src="https://images.pexels.com/photos/7862511/pexels-photo-7862511.jpeg" 
-                                 alt="PUBG Mobile"
-                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                                 onerror="this.src='https://via.placeholder.com/400x225?text=PUBG+Mobile'">
-                            <div class="absolute inset-0 bg-gradient-to-t from-[#1a0b2e] to-transparent opacity-60"></div>
-                            <div class="absolute bottom-4 left-4 right-4">
-                                <h3 class="text-xl font-bold mb-2">PUBG Mobile</h3>
-                                <p class="text-sm text-gray-300">Battle Royale hàng đầu trên mobile</p>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Free Fire -->
-                <a href="shop.html?game=freefire" class="group">
-                    <div class="bg-[#2a1b3e] rounded-xl overflow-hidden border border-pink-500/30 hover:border-pink-500 transition-all duration-300 transform hover:scale-105">
-                        <div class="relative aspect-video">
-                            <img src="https://images.pexels.com/photos/7862673/pexels-photo-7862673.jpeg" 
-                                 alt="Free Fire"
-                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                                 onerror="this.src='https://via.placeholder.com/400x225?text=Free+Fire'">
-                            <div class="absolute inset-0 bg-gradient-to-t from-[#1a0b2e] to-transparent opacity-60"></div>
-                            <div class="absolute bottom-4 left-4 right-4">
-                                <h3 class="text-xl font-bold mb-2">Free Fire</h3>
-                                <p class="text-sm text-gray-300">Battle Royale nhẹ và phổ biến</p>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Call of Duty Mobile -->
-                <a href="shop.html?game=codm" class="group">
-                    <div class="bg-[#2a1b3e] rounded-xl overflow-hidden border border-pink-500/30 hover:border-pink-500 transition-all duration-300 transform hover:scale-105">
-                        <div class="relative aspect-video">
-                            <img src="https://images.pexels.com/photos/7862501/pexels-photo-7862501.jpeg" 
-                                 alt="Call of Duty Mobile"
-                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                                 onerror="this.src='https://via.placeholder.com/400x225?text=Call+of+Duty+Mobile'">
-                            <div class="absolute inset-0 bg-gradient-to-t from-[#1a0b2e] to-transparent opacity-60"></div>
-                            <div class="absolute bottom-4 left-4 right-4">
-                                <h3 class="text-xl font-bold mb-2">Call of Duty Mobile</h3>
-                                <p class="text-sm text-gray-300">FPS mobile với đồ họa đỉnh cao</p>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Mobile Legends -->
-                <a href="shop.html?game=mlbb" class="group">
-                    <div class="bg-[#2a1b3e] rounded-xl overflow-hidden border border-pink-500/30 hover:border-pink-500 transition-all duration-300 transform hover:scale-105">
-                        <div class="relative aspect-video">
-                            <img src="https://images.pexels.com/photos/7862636/pexels-photo-7862636.jpeg" 
-                                 alt="Mobile Legends"
-                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                                 onerror="this.src='https://via.placeholder.com/400x225?text=Mobile+Legends'">
-                            <div class="absolute inset-0 bg-gradient-to-t from-[#1a0b2e] to-transparent opacity-60"></div>
-                            <div class="absolute bottom-4 left-4 right-4">
-                                <h3 class="text-xl font-bold mb-2">Mobile Legends</h3>
-                                <p class="text-sm text-gray-300">MOBA mobile phổ biến toàn cầu</p>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Genshin Impact -->
-                <a href="shop.html?game=genshin" class="group">
-                    <div class="bg-[#2a1b3e] rounded-xl overflow-hidden border border-pink-500/30 hover:border-pink-500 transition-all duration-300 transform hover:scale-105">
-                        <div class="relative aspect-video">
-                            <img src="https://images.pexels.com/photos/7862527/pexels-photo-7862527.jpeg" 
-                                 alt="Genshin Impact"
-                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                                 onerror="this.src='https://via.placeholder.com/400x225?text=Genshin+Impact'">
-                            <div class="absolute inset-0 bg-gradient-to-t from-[#1a0b2e] to-transparent opacity-60"></div>
-                            <div class="absolute bottom-4 left-4 right-4">
-                                <h3 class="text-xl font-bold mb-2">Genshin Impact</h3>
-                                <p class="text-sm text-gray-300">Game nhập vai thế giới mở</p>
-                            </div>
-                        </div>
-                    </div>
-                </a>
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <input type="text" id="search-input" 
+                           class="w-64 px-4 py-2 rounded-lg bg-[#2a1b3e] border border-pink-500/30 text-white placeholder-gray-500 focus:outline-none focus:border-pink-500 transition-colors"
+                           placeholder="Tìm kiếm...">
+                    <i class="fas fa-search absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+                </div>
             </div>
+        </div>
+
+        <!-- Categories Grid -->
+        <div id="categories-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Categories will be loaded dynamically -->
+            <div class="animate-pulse">
+                <div class="bg-[#2a1b3e] rounded-xl p-6">
+                    <div class="h-12 bg-[#1a0b2e] rounded-lg mb-4"></div>
+                    <div class="h-4 bg-[#1a0b2e] rounded w-3/4 mb-2"></div>
+                    <div class="h-4 bg-[#1a0b2e] rounded w-1/2"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- No Results Message -->
+        <div id="no-results" class="hidden text-center py-12">
+            <div class="w-24 h-24 rounded-full bg-[#2a1b3e] flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-search text-3xl text-pink-500"></i>
+            </div>
+            <p class="text-gray-400">Không tìm thấy danh mục nào</p>
         </div>
     </main>
 
+    <!-- Include Footer -->
+    <div id="footer-container"></div>
+
     <!-- Scripts -->
-    <script src="js/main.js"></script>
+    <script type="module">
+        // Load components
+        fetch('components/header.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-container').innerHTML = html;
+            });
+
+        fetch('components/footer.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('footer-container').innerHTML = html;
+            });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load categories
+            loadCategories();
+
+            // Set up search
+            const searchInput = document.getElementById('search-input');
+            searchInput?.addEventListener('input', debounce((e) => {
+                filterCategories(e.target.value);
+            }, 300));
+        });
+
+        function loadCategories() {
+            // Load config
+            const config = JSON.parse(localStorage.getItem('config') || '{}');
+            const categories = config.categories || [];
+
+            // Update UI
+            const container = document.getElementById('categories-grid');
+            if (!container) return;
+
+            container.innerHTML = categories.map(category => `
+                <a href="shop.html?category=${category.id}"
+                   class="bg-[#2a1b3e] rounded-xl p-6 border border-pink-500/30 hover:border-pink-500 transition-all duration-300 transform hover:scale-105">
+                    <div class="flex items-center space-x-4 mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-[#1a0b2e] flex items-center justify-center">
+                            <i class="${category.icon} text-2xl text-pink-500"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold">${category.name}</h3>
+                            <p class="text-sm text-gray-400">${category.description}</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-end">
+                        <button class="text-sm text-pink-500 hover:text-pink-400 transition-colors">
+                            Xem thêm
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </a>
+            `).join('');
+
+            // Show/hide no results message
+            document.getElementById('no-results')?.classList.toggle('hidden', categories.length > 0);
+        }
+
+        function filterCategories(query) {
+            const config = JSON.parse(localStorage.getItem('config') || '{}');
+            const categories = config.categories || [];
+            
+            const filteredCategories = categories.filter(category => 
+                category.name.toLowerCase().includes(query.toLowerCase()) ||
+                category.description.toLowerCase().includes(query.toLowerCase())
+            );
+
+            const container = document.getElementById('categories-grid');
+            if (!container) return;
+
+            container.innerHTML = filteredCategories.map(category => `
+                <a href="shop.html?category=${category.id}"
+                   class="bg-[#2a1b3e] rounded-xl p-6 border border-pink-500/30 hover:border-pink-500 transition-all duration-300 transform hover:scale-105">
+                    <div class="flex items-center space-x-4 mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-[#1a0b2e] flex items-center justify-center">
+                            <i class="${category.icon} text-2xl text-pink-500"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold">${category.name}</h3>
+                            <p class="text-sm text-gray-400">${category.description}</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-end">
+                        <button class="text-sm text-pink-500 hover:text-pink-400 transition-colors">
+                            Xem thêm
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </a>
+            `).join('');
+
+            // Show/hide no results message
+            document.getElementById('no-results')?.classList.toggle('hidden', filteredCategories.length > 0);
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+    </script>
 </body>
 </html>
