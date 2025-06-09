@@ -1,280 +1,204 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const dragon = document.getElementById('dragon-container');
-    if (!dragon) {
-        console.error('Dragon container not found!');
-        return;
-    }
-    
-    // Initialize positions and trail
-    let targetX = window.innerWidth / 2, targetY = window.innerHeight / 2;
-    let currentX = targetX, currentY = targetY;
-    let trail = [];
-    let tail = [];
-    let particles = [];
-    const trailLength = 15;
-    const tailLength = 35;
-    const speed = 0.06;
-    let currentAngle = 0;
-    
-    // Create trail elements
-    for (let i = 0; i < trailLength; i++) {
-        const trailDot = document.createElement('div');
-        trailDot.className = 'trail-dot';
-        trailDot.style.opacity = (1 - i / trailLength) * 0.7;
-        document.body.appendChild(trailDot);
-        trail.push({
-            element: trailDot,
-            x: 0,
-            y: 0
-        });
+// Dragon Cursor Animation Service
+class DragonCursor {
+    constructor() {
+        this.dragon = null;
+        this.trail = [];
+        this.maxTrail = 20;
+        this.init();
     }
 
-    // Create tail segments
-    for (let i = 0; i < tailLength; i++) {
-        const tailSegment = document.createElement('div');
-        tailSegment.className = 'dragon-tail';
+    init() {
+        // Add styles
+        this.addStyles();
         
-        const redComponent = Math.floor((i / tailLength) * 255);
-        const blackComponent = Math.floor((1 - i / tailLength) * 50);
-        tailSegment.style.background = `rgb(${redComponent}, ${blackComponent}, ${blackComponent})`;
+        // Create dragon cursor
+        this.createDragon();
         
-        const size = 14 - (i * 0.25);
-        tailSegment.style.width = `${size}px`;
-        tailSegment.style.height = `${size}px`;
-        tailSegment.style.opacity = (1 - i / tailLength) * 0.95;
-        
-        document.body.appendChild(tailSegment);
-        tail.push({
-            element: tailSegment,
-            x: 0,
-            y: 0,
-            angle: 0,
-            wave: 0
-        });
+        // Set up event listeners
+        this.setupEventListeners();
     }
 
-    // Create particle effect
-    function createParticle(x, y, isFireball = false, angle = 0) {
-        const particle = document.createElement('div');
-        particle.className = isFireball ? 'fireball' : 'particle';
-        document.body.appendChild(particle);
-        
-        let particleAngle;
-        if (isFireball) {
-            // Create cone of fire in the direction the dragon is facing
-            particleAngle = angle + (Math.random() - 0.5) * Math.PI / 3; // 60-degree cone
-        } else {
-            particleAngle = Math.random() * Math.PI * 2;
-        }
-        
-        const velocity = isFireball ? 12 + Math.random() * 6 : 2 + Math.random() * 2;
-        const lifetime = isFireball ? 1000 + Math.random() * 500 : 500 + Math.random() * 500;
-        const size = isFireball ? 15 + Math.random() * 10 : 4 + Math.random() * 4;
-        
-        particles.push({
-            element: particle,
-            x,
-            y,
-            vx: Math.cos(particleAngle) * velocity,
-            vy: Math.sin(particleAngle) * velocity,
-            life: lifetime,
-            maxLife: lifetime,
-            size,
-            isFireball,
-            rotation: Math.random() * 360
-        });
-    }
-
-    // Create trail effect
-    function createTrailEffect(x, y) {
-        for (let i = 0; i < 3; i++) {
-            createParticle(x, y);
-        }
-    }
-
-    // Create fire breath effect
-    function createFireBreath(x, y, angle) {
-        const fireballCount = 12;
-        for (let i = 0; i < fireballCount; i++) {
-            setTimeout(() => {
-                createParticle(x, y, true, angle - Math.PI/2);
-            }, i * 50);
-        }
-    }
-
-    // Handle clicking on elements
-    document.addEventListener('click', (e) => {
-        const target = e.target;
-        if (target.tagName === 'BUTTON' || target.tagName === 'A' || 
-            target.closest('button') || target.closest('a')) {
-            // Calculate position relative to the clicked element
-            const rect = target.getBoundingClientRect();
-            const elementX = rect.left + rect.width / 2;
-            const elementY = rect.top + rect.height / 2;
-            
-            // Create fire breath effect
-            createFireBreath(currentX, currentY, currentAngle);
-            
-            // Move dragon to the clicked element
-            targetX = elementX;
-            targetY = elementY;
-        }
-    });
-
-    function animate() {
-        // Smooth movement
-        currentX += (targetX - currentX) * speed;
-        currentY += (targetY - currentY) * speed;
-        
-        const dx = targetX - currentX;
-        const dy = targetY - currentY;
-        const angle = Math.atan2(dy, dx);
-        currentAngle += (angle - currentAngle) * speed * 2;
-        
-        // Update dragon
-        dragon.style.transform = `translate(${currentX}px, ${currentY}px) rotate(${currentAngle * 180/Math.PI + 90}deg)`;
-        
-        // Update trail
-        for (let i = trail.length - 1; i >= 0; i--) {
-            if (i === 0) {
-                trail[i].x = currentX;
-                trail[i].y = currentY;
-            } else {
-                const prevX = trail[i-1].x;
-                const prevY = trail[i-1].y;
-                const followSpeed = speed * (1.2 - i * 0.02);
-                trail[i].x += (prevX - trail[i].x) * followSpeed;
-                trail[i].y += (prevY - trail[i].y) * followSpeed;
+    addStyles() {
+        const style = document.createElement('style');
+        style.textContent = `
+            .dragon-cursor {
+                position: fixed;
+                pointer-events: none;
+                z-index: 10000;
+                width: 30px;
+                height: 30px;
+                transform: translate(-50%, -50%);
+                transition: transform 0.1s ease;
             }
-            
-            trail[i].element.style.transform = `translate(${trail[i].x}px, ${trail[i].y}px)`;
-        }
 
-        // Update tail with enhanced wave effect
-        const time = Date.now() * 0.002;
-        let prevX = currentX;
-        let prevY = currentY;
-        let prevAngle = currentAngle;
-        
-        for (let i = 0; i < tail.length; i++) {
-            const delay = i * 0.2;
-            const waveAmplitude = 30 - (i * 0.4);
-            const waveFrequency = 0.15;
-            
-            const targetWave = Math.sin((time - delay) * waveFrequency) * waveAmplitude;
-            tail[i].wave += (targetWave - tail[i].wave) * speed;
-            
-            const dx = prevX - tail[i].x;
-            const dy = prevY - tail[i].y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            
-            if (distance > 0) {
-                const normalX = dx / distance;
-                const normalY = dy / distance;
-                const spacing = 12 + i * 1.5;
-                
-                const targetX = prevX - normalX * spacing + normalY * tail[i].wave;
-                const targetY = prevY - normalY * spacing - normalX * tail[i].wave;
-                
-                const segmentSpeed = speed * (1.2 - i * 0.015);
-                tail[i].x += (targetX - tail[i].x) * segmentSpeed;
-                tail[i].y += (targetY - tail[i].y) * segmentSpeed;
-                
-                prevX = tail[i].x;
-                prevY = tail[i].y;
-                
-                const segmentAngle = Math.atan2(dy, dx);
-                tail[i].angle += (segmentAngle - tail[i].angle) * speed;
-                prevAngle = tail[i].angle;
-                
-                const scale = 1 - (i * 0.01);
-                tail[i].element.style.transform = 
-                    `translate(${tail[i].x}px, ${tail[i].y}px) rotate(${tail[i].angle * 180/Math.PI}deg) scale(${scale})`;
-                
-                if (i % 5 === 0 && Math.random() < 0.1) {
-                    createTrailEffect(tail[i].x, tail[i].y);
+            .dragon-cursor svg {
+                width: 100%;
+                height: 100%;
+                fill: rgba(236, 72, 153, 0.8);
+                filter: drop-shadow(0 0 5px rgba(236, 72, 153, 0.5));
+            }
+
+            .dragon-trail {
+                position: fixed;
+                pointer-events: none;
+                width: 10px;
+                height: 10px;
+                background: radial-gradient(circle, rgba(236, 72, 153, 0.5) 0%, transparent 70%);
+                border-radius: 50%;
+                z-index: 9999;
+                transition: all 0.2s ease;
+            }
+
+            .dragon-cursor.active svg {
+                animation: dragonPulse 0.5s infinite;
+            }
+
+            @keyframes dragonPulse {
+                0% {
+                    transform: scale(1);
+                    filter: drop-shadow(0 0 5px rgba(236, 72, 153, 0.5));
+                }
+                50% {
+                    transform: scale(1.2);
+                    filter: drop-shadow(0 0 10px rgba(236, 72, 153, 0.7));
+                }
+                100% {
+                    transform: scale(1);
+                    filter: drop-shadow(0 0 5px rgba(236, 72, 153, 0.5));
                 }
             }
-        }
-
-        // Update particles
-        particles.forEach((particle, index) => {
-            particle.x += particle.vx;
-            particle.y += particle.vy;
-            particle.life -= 16;
-            
-            if (particle.isFireball) {
-                particle.vy += 0.2; // Gravity
-                particle.vx *= 0.99; // Air resistance
-                particle.rotation += 10; // Rotation
-            }
-            
-            const progress = particle.life / particle.maxLife;
-            const scale = particle.isFireball ? 
-                progress * (particle.size / 15) :
-                progress * (particle.size / 4);
-            
-            particle.element.style.transform = `translate(${particle.x}px, ${particle.y}px) scale(${scale}) rotate(${particle.rotation}deg)`;
-            particle.element.style.opacity = progress;
-            
-            if (particle.life <= 0) {
-                particle.element.remove();
-                particles.splice(index, 1);
-            }
-        });
-        
-        requestAnimationFrame(animate);
+        `;
+        document.head.appendChild(style);
     }
-    
-    animate();
-    
-    // Enhanced mouse tracking
-    let lastUpdate = 0;
-    const throttleInterval = 16;
-    let lastX = 0, lastY = 0;
-    
-    document.addEventListener('mousemove', (e) => {
+
+    createDragon() {
+        this.dragon = document.createElement('div');
+        this.dragon.className = 'dragon-cursor';
+        this.dragon.innerHTML = `
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 50 C20 30 40 20 50 20 C60 20 80 30 80 50 C80 70 60 80 50 80 C40 80 20 70 20 50 Z"/>
+                <circle cx="35" cy="45" r="3"/>
+                <circle cx="65" cy="45" r="3"/>
+                <path d="M40 60 Q50 65 60 60" fill="none" stroke="white" stroke-width="2"/>
+            </svg>
+        `;
+        document.body.appendChild(this.dragon);
+    }
+
+    setupEventListeners() {
+        // Track mouse movement
+        document.addEventListener('mousemove', (e) => this.updatePosition(e));
+
+        // Track clicks
+        document.addEventListener('mousedown', () => this.onMouseDown());
+        document.addEventListener('mouseup', () => this.onMouseUp());
+
+        // Track interactive elements
+        document.addEventListener('mouseover', (e) => this.handleHover(e));
+        document.addEventListener('mouseout', (e) => this.handleHoverEnd(e));
+    }
+
+    updatePosition(e) {
+        if (!this.dragon) return;
+
+        // Update dragon position
+        const x = e.clientX;
+        const y = e.clientY;
+        this.dragon.style.transform = `translate(${x}px, ${y}px)`;
+
+        // Update trail
+        this.updateTrail(x, y);
+    }
+
+    updateTrail(x, y) {
+        // Create new trail particle
+        const particle = document.createElement('div');
+        particle.className = 'dragon-trail';
+        particle.style.left = `${x}px`;
+        particle.style.top = `${y}px`;
+        document.body.appendChild(particle);
+
+        // Add to trail array
+        this.trail.push({
+            element: particle,
+            createdAt: Date.now()
+        });
+
+        // Remove old trail particles
+        this.cleanupTrail();
+    }
+
+    cleanupTrail() {
         const now = Date.now();
-        if (now - lastUpdate > throttleInterval) {
-            // Add smooth easing to mouse movement
-            targetX = e.clientX;
-            targetY = e.clientY;
-            
-            // Update last positions with smooth interpolation
-            lastX = lastX + (targetX - lastX) * 0.3;
-            lastY = lastY + (targetY - lastY) * 0.3;
-            lastUpdate = now;
-        }
-    });
+        this.trail = this.trail.filter(particle => {
+            if (now - particle.createdAt > 1000) {
+                particle.element.remove();
+                return false;
+            }
+            return true;
+        });
 
-    // Initial positioning at page load
-    window.addEventListener('load', () => {
-        targetX = window.innerWidth / 2;
-        targetY = window.innerHeight / 2;
-        currentX = targetX;
-        currentY = targetY;
-        lastX = targetX;
-        lastY = targetY;
-    });
+        // Limit trail length
+        while (this.trail.length > this.maxTrail) {
+            const particle = this.trail.shift();
+            particle.element.remove();
+        }
+    }
 
-    // Handle window resize
-    window.addEventListener('resize', () => {
-        if (targetX > window.innerWidth) {
-            targetX = window.innerWidth / 2;
-            currentX = targetX;
-            lastX = targetX;
+    onMouseDown() {
+        if (!this.dragon) return;
+        this.dragon.classList.add('active');
+        
+        // Create click effect
+        const x = parseFloat(this.dragon.style.transform.split('(')[1]);
+        const y = parseFloat(this.dragon.style.transform.split(',')[1]);
+        this.createClickEffect(x, y);
+    }
+
+    onMouseUp() {
+        if (!this.dragon) return;
+        this.dragon.classList.remove('active');
+    }
+
+    handleHover(e) {
+        const interactive = e.target.closest('button, a, input, select, textarea');
+        if (interactive && this.dragon) {
+            this.dragon.classList.add('active');
+            this.dragon.style.transform += ' scale(0.8)';
         }
-        if (targetY > window.innerHeight) {
-            targetY = window.innerHeight / 2;
-            currentY = targetY;
-            lastY = targetY;
+    }
+
+    handleHoverEnd(e) {
+        const interactive = e.target.closest('button, a, input, select, textarea');
+        if (interactive && this.dragon) {
+            this.dragon.classList.remove('active');
+            this.dragon.style.transform = this.dragon.style.transform.replace(' scale(0.8)', '');
         }
-    });
-    
-    // Cleanup
-    window.addEventListener('unload', () => {
-        trail.forEach(t => t.element.remove());
-        tail.forEach(t => t.element.remove());
-        particles.forEach(p => p.element.remove());
-    });
-});
+    }
+
+    createClickEffect(x, y) {
+        const effect = document.createElement('div');
+        effect.className = 'dragon-trail';
+        effect.style.left = `${x}px`;
+        effect.style.top = `${y}px`;
+        effect.style.width = '30px';
+        effect.style.height = '30px';
+        effect.style.animation = 'dragonPulse 0.5s forwards';
+        document.body.appendChild(effect);
+
+        setTimeout(() => effect.remove(), 500);
+    }
+
+    destroy() {
+        if (this.dragon) {
+            this.dragon.remove();
+            this.dragon = null;
+        }
+        this.trail.forEach(particle => particle.element.remove());
+        this.trail = [];
+    }
+}
+
+// Create and export dragon cursor instance
+const dragonCursor = new DragonCursor();
+export default dragonCursor;
