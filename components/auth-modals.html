@@ -1,0 +1,166 @@
+<!-- Login Modal -->
+<div id="login-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+    <div class="bg-[#2a1b3e] rounded-xl p-8 w-full max-w-md mx-4 transform transition-all duration-300 scale-in">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold">Đăng nhập</h2>
+            <button onclick="closeModal('login-modal')" class="text-gray-400 hover:text-white transition-colors">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <form id="login-form" class="space-y-4">
+            <div>
+                <label for="login-email" class="block text-sm font-medium text-gray-400 mb-1">Email</label>
+                <input type="email" id="login-email" name="email" required
+                       class="w-full px-4 py-2 rounded-lg bg-[#1a0b2e] border border-pink-500/30 text-white placeholder-gray-500 focus:outline-none focus:border-pink-500 transition-colors"
+                       placeholder="Nhập email của bạn">
+            </div>
+
+            <div>
+                <label for="login-password" class="block text-sm font-medium text-gray-400 mb-1">Mật khẩu</label>
+                <input type="password" id="login-password" name="password" required
+                       class="w-full px-4 py-2 rounded-lg bg-[#1a0b2e] border border-pink-500/30 text-white placeholder-gray-500 focus:outline-none focus:border-pink-500 transition-colors"
+                       placeholder="Nhập mật khẩu">
+            </div>
+
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <input type="checkbox" id="remember-me" name="remember-me"
+                           class="w-4 h-4 rounded border-pink-500/30 text-pink-500 focus:ring-pink-500">
+                    <label for="remember-me" class="ml-2 text-sm text-gray-400">
+                        Ghi nhớ đăng nhập
+                    </label>
+                </div>
+
+                <button type="button" class="text-sm text-pink-500 hover:text-pink-400 transition-colors">
+                    Quên mật khẩu?
+                </button>
+            </div>
+
+            <button type="submit"
+                    class="w-full py-3 px-4 rounded-lg bg-pink-500 text-white font-medium hover:bg-pink-600 transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 focus:ring-offset-[#1a0b2e]">
+                <i class="fas fa-sign-in-alt mr-2"></i>
+                Đăng nhập
+            </button>
+        </form>
+
+        <div class="mt-6 text-center">
+            <p class="text-sm text-gray-400">
+                Chưa có tài khoản?
+                <button onclick="switchModal('login-modal', 'register-modal')"
+                        class="text-pink-500 hover:text-pink-400 transition-colors font-medium">
+                    Đăng ký ngay
+                </button>
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Register Modal -->
+<div id="register-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+    <div class="bg-[#2a1b3e] rounded-xl p-8 w-full max-w-md mx-4 transform transition-all duration-300 scale-in">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold">Đăng ký</h2>
+            <button onclick="closeModal('register-modal')" class="text-gray-400 hover:text-white transition-colors">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <form id="register-form" class="space-y-4">
+            <div>
+                <label for="register-username" class="block text-sm font-medium text-gray-400 mb-1">Tên người dùng</label>
+                <input type="text" id="register-username" name="username" required
+                       class="w-full px-4 py-2 rounded-lg bg-[#1a0b2e] border border-pink-500/30 text-white placeholder-gray-500 focus:outline-none focus:border-pink-500 transition-colors"
+                       placeholder="Nhập tên người dùng">
+            </div>
+
+            <div>
+                <label for="register-email" class="block text-sm font-medium text-gray-400 mb-1">Email</label>
+                <input type="email" id="register-email" name="email" required
+                       class="w-full px-4 py-2 rounded-lg bg-[#1a0b2e] border border-pink-500/30 text-white placeholder-gray-500 focus:outline-none focus:border-pink-500 transition-colors"
+                       placeholder="Nhập email của bạn">
+            </div>
+
+            <div>
+                <label for="register-password" class="block text-sm font-medium text-gray-400 mb-1">Mật khẩu</label>
+                <input type="password" id="register-password" name="password" required
+                       class="w-full px-4 py-2 rounded-lg bg-[#1a0b2e] border border-pink-500/30 text-white placeholder-gray-500 focus:outline-none focus:border-pink-500 transition-colors"
+                       placeholder="Nhập mật khẩu">
+            </div>
+
+            <div>
+                <label for="register-confirm-password" class="block text-sm font-medium text-gray-400 mb-1">Xác nhận mật khẩu</label>
+                <input type="password" id="register-confirm-password" name="confirm_password" required
+                       class="w-full px-4 py-2 rounded-lg bg-[#1a0b2e] border border-pink-500/30 text-white placeholder-gray-500 focus:outline-none focus:border-pink-500 transition-colors"
+                       placeholder="Nhập lại mật khẩu">
+            </div>
+
+            <div class="flex items-center">
+                <input type="checkbox" id="terms" name="terms" required
+                       class="w-4 h-4 rounded border-pink-500/30 text-pink-500 focus:ring-pink-500">
+                <label for="terms" class="ml-2 text-sm text-gray-400">
+                    Tôi đồng ý với
+                    <a href="#" class="text-pink-500 hover:text-pink-400 transition-colors">
+                        điều khoản sử dụng
+                    </a>
+                </label>
+            </div>
+
+            <button type="submit"
+                    class="w-full py-3 px-4 rounded-lg bg-pink-500 text-white font-medium hover:bg-pink-600 transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 focus:ring-offset-[#1a0b2e]">
+                <i class="fas fa-user-plus mr-2"></i>
+                Đăng ký
+            </button>
+        </form>
+
+        <div class="mt-6 text-center">
+            <p class="text-sm text-gray-400">
+                Đã có tài khoản?
+                <button onclick="switchModal('register-modal', 'login-modal')"
+                        class="text-pink-500 hover:text-pink-400 transition-colors font-medium">
+                    Đăng nhập
+                </button>
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openModal(modalId) {
+        document.getElementById(modalId).classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+
+    function switchModal(closeId, openId) {
+        closeModal(closeId);
+        openModal(openId);
+    }
+
+    // Initialize forms
+    document.addEventListener('DOMContentLoaded', () => {
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+
+        loginForm?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(loginForm);
+            auth.login(formData);
+        });
+
+        registerForm?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(registerForm);
+            auth.register(formData);
+        });
+    });
+
+    // Make functions available globally
+    window.openModal = openModal;
+    window.closeModal = closeModal;
+    window.switchModal = switchModal;
+</script>
