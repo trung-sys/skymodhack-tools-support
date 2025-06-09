@@ -1,162 +1,301 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Theme handling
-    const theme = localStorage.getItem('theme') || 'dark';
-    document.documentElement.setAttribute('data-theme', theme);
-    document.body.setAttribute('data-theme', theme);
-
-    // Create theme toggle button if it doesn't exist
-    let themeToggle = document.querySelector('.theme-toggle');
-    if (!themeToggle) {
-        themeToggle = document.createElement('div');
-        themeToggle.className = 'theme-toggle ml-4 cursor-pointer flex items-center justify-center w-10 h-10 rounded-full bg-[#2a1b3e] hover:bg-pink-500/10 transition-all';
-        themeToggle.innerHTML = `
-            <i class="fas fa-moon moon-icon text-pink-500"></i>
-            <i class="fas fa-sun sun-icon text-pink-500 hidden"></i>
-        `;
-
-        // Add theme toggle to header navigation
-        const navItems = document.querySelector('.md\\:flex.items-center.space-x-6');
-        if (navItems) {
-            const langSelector = document.querySelector('.relative.group');
-            if (langSelector) {
-                langSelector.parentNode.insertBefore(themeToggle, langSelector);
+// Theme and Language Manager
+class ThemeManager {
+    constructor() {
+        this.currentTheme = 'dark';
+        this.currentLang = 'vi';
+        this.translations = {
+            vi: {
+                // Navigation
+                home: 'Trang chủ',
+                shop: 'Cửa hàng',
+                categories: 'Danh mục',
+                cart: 'Giỏ hàng',
+                history: 'Lịch sử',
+                contact: 'Liên hệ',
+                
+                // Auth
+                login: 'Đăng nhập',
+                register: 'Đăng ký',
+                logout: 'Đăng xuất',
+                email: 'Email',
+                password: 'Mật khẩu',
+                confirm_password: 'Xác nhận mật khẩu',
+                remember_me: 'Ghi nhớ đăng nhập',
+                forgot_password: 'Quên mật khẩu?',
+                
+                // Shop
+                add_to_cart: 'Thêm vào giỏ',
+                buy_now: 'Mua ngay',
+                price: 'Giá',
+                duration: 'Thời hạn',
+                features: 'Tính năng',
+                
+                // Cart
+                empty_cart: 'Giỏ hàng trống',
+                subtotal: 'Tạm tính',
+                total: 'Tổng cộng',
+                checkout: 'Thanh toán',
+                continue_shopping: 'Tiếp tục mua hàng',
+                
+                // Payment
+                topup: 'Nạp tiền',
+                payment_method: 'Phương thức thanh toán',
+                amount: 'Số tiền',
+                transaction_id: 'Mã giao dịch',
+                confirm_payment: 'Xác nhận thanh toán',
+                
+                // History
+                order_history: 'Lịch sử đơn hàng',
+                topup_history: 'Lịch sử nạp tiền',
+                key_history: 'Lịch sử key',
+                
+                // Contact
+                send_message: 'Gửi tin nhắn',
+                name: 'Họ tên',
+                subject: 'Chủ đề',
+                message: 'Tin nhắn',
+                
+                // Admin
+                dashboard: 'Bảng điều khiển',
+                users: 'Người dùng',
+                orders: 'Đơn hàng',
+                products: 'Sản phẩm',
+                settings: 'Cài đặt',
+                
+                // Status
+                active: 'Hoạt động',
+                inactive: 'Không hoạt động',
+                completed: 'Hoàn thành',
+                pending: 'Đang xử lý',
+                cancelled: 'Đã hủy',
+                
+                // Messages
+                login_success: 'Đăng nhập thành công',
+                login_error: 'Email hoặc mật khẩu không chính xác',
+                register_success: 'Đăng ký thành công',
+                register_error: 'Email đã được sử dụng',
+                logout_success: 'Đã đăng xuất',
+                add_cart_success: 'Đã thêm vào giỏ hàng',
+                remove_cart_success: 'Đã xóa khỏi giỏ hàng',
+                checkout_success: 'Thanh toán thành công',
+                topup_success: 'Nạp tiền thành công',
+                contact_success: 'Tin nhắn đã được gửi',
+                
+                // Errors
+                error_required: 'Vui lòng điền đầy đủ thông tin',
+                error_email: 'Email không hợp lệ',
+                error_password: 'Mật khẩu phải có ít nhất 6 ký tự',
+                error_confirm_password: 'Mật khẩu xác nhận không khớp',
+                error_amount: 'Số tiền không hợp lệ',
+                error_balance: 'Số dư không đủ',
+                error_server: 'Lỗi hệ thống, vui lòng thử lại sau'
+            },
+            en: {
+                // Navigation
+                home: 'Home',
+                shop: 'Shop',
+                categories: 'Categories',
+                cart: 'Cart',
+                history: 'History',
+                contact: 'Contact',
+                
+                // Auth
+                login: 'Login',
+                register: 'Register',
+                logout: 'Logout',
+                email: 'Email',
+                password: 'Password',
+                confirm_password: 'Confirm Password',
+                remember_me: 'Remember me',
+                forgot_password: 'Forgot password?',
+                
+                // Shop
+                add_to_cart: 'Add to Cart',
+                buy_now: 'Buy Now',
+                price: 'Price',
+                duration: 'Duration',
+                features: 'Features',
+                
+                // Cart
+                empty_cart: 'Your cart is empty',
+                subtotal: 'Subtotal',
+                total: 'Total',
+                checkout: 'Checkout',
+                continue_shopping: 'Continue Shopping',
+                
+                // Payment
+                topup: 'Top Up',
+                payment_method: 'Payment Method',
+                amount: 'Amount',
+                transaction_id: 'Transaction ID',
+                confirm_payment: 'Confirm Payment',
+                
+                // History
+                order_history: 'Order History',
+                topup_history: 'Top-up History',
+                key_history: 'Key History',
+                
+                // Contact
+                send_message: 'Send Message',
+                name: 'Name',
+                subject: 'Subject',
+                message: 'Message',
+                
+                // Admin
+                dashboard: 'Dashboard',
+                users: 'Users',
+                orders: 'Orders',
+                products: 'Products',
+                settings: 'Settings',
+                
+                // Status
+                active: 'Active',
+                inactive: 'Inactive',
+                completed: 'Completed',
+                pending: 'Pending',
+                cancelled: 'Cancelled',
+                
+                // Messages
+                login_success: 'Login successful',
+                login_error: 'Invalid email or password',
+                register_success: 'Registration successful',
+                register_error: 'Email already in use',
+                logout_success: 'Logged out successfully',
+                add_cart_success: 'Added to cart',
+                remove_cart_success: 'Removed from cart',
+                checkout_success: 'Checkout successful',
+                topup_success: 'Top-up successful',
+                contact_success: 'Message sent successfully',
+                
+                // Errors
+                error_required: 'Please fill in all fields',
+                error_email: 'Invalid email address',
+                error_password: 'Password must be at least 6 characters',
+                error_confirm_password: 'Passwords do not match',
+                error_amount: 'Invalid amount',
+                error_balance: 'Insufficient balance',
+                error_server: 'System error, please try again later'
             }
-        }
+        };
+        this.init();
     }
 
-    // Initialize theme toggle icons
-    const moonIcon = themeToggle.querySelector('.moon-icon');
-    const sunIcon = themeToggle.querySelector('.sun-icon');
-    
-    if (theme === 'dark') {
-        moonIcon.classList.remove('hidden');
-        sunIcon.classList.add('hidden');
-    } else {
-        moonIcon.classList.add('hidden');
-        sunIcon.classList.remove('hidden');
-    }
-
-    // Theme toggle functionality
-    themeToggle.addEventListener('click', () => {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    init() {
+        // Load saved preferences
+        this.loadPreferences();
         
-        document.documentElement.setAttribute('data-theme', newTheme);
-        document.body.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
+        // Set up event listeners
+        this.setupEventListeners();
+        
+        // Initial update
+        this.updateUI();
+    }
 
-        // Update icons visibility
-        if (newTheme === 'dark') {
-            moonIcon.classList.remove('hidden');
-            sunIcon.classList.add('hidden');
-        } else {
-            moonIcon.classList.add('hidden');
-            sunIcon.classList.remove('hidden');
+    loadPreferences() {
+        // Load theme preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            this.setTheme(savedTheme);
         }
-    });
 
-    // Language handling
-    const translations = {
-        'en': {
-            'home': 'Home',
-            'shop': 'Key Shop',
-            'topup': 'Top Up',
-            'history': 'Order History',
-            'contact': 'Contact',
-            'login': 'LOGIN',
-            'register': 'REGISTER',
-            'products': 'PRODUCTS',
-            'description': 'We provide licensed keys and high-quality gaming support software such as Aimbot, Wallhack, ESP, and other support systems. Comes with detailed usage instructions, supporting all popular platforms. Our team is ready to support you 24/7.',
-            'status': 'Website Status: Online',
-            'support': 'Support',
-            'usage_guide': 'Usage Guide',
-            'privacy_policy': 'Privacy Policy',
-            'terms': 'Terms of Service',
-            'follow_us': 'Follow Us',
-            'quick_links': 'Quick Links',
-            'remember_me': 'Remember me',
-            'forgot_password': 'Forgot password?',
-            'no_account': 'Don\'t have an account?',
-            'sign_up_now': 'Sign up now',
-            'have_account': 'Already have an account?',
-            'sign_in': 'Sign in'
-        },
-        'vi': {
-            'home': 'Trang chủ',
-            'shop': 'Cửa hàng key',
-            'topup': 'Nạp tiền',
-            'history': 'Lịch sử đơn hàng',
-            'contact': 'Liên hệ',
-            'login': 'ĐĂNG NHẬP',
-            'register': 'ĐĂNG KÝ',
-            'products': 'SẢN PHẨM',
-            'description': 'Chúng tôi cung cấp key bản quyền và các phần mềm hỗ trợ chơi game chất lượng cao như Aimbot, Wallhack, ESP và nhiều hệ thống hỗ trợ khác. Đi kèm với hướng dẫn sử dụng chi tiết, hỗ trợ tất cả các nền tảng phổ biến. Đội ngũ của chúng tôi luôn sẵn sàng hỗ trợ bạn 24/7.',
-            'status': 'Trạng thái trang web: Trực tuyến',
-            'support': 'Hỗ trợ',
-            'usage_guide': 'Hướng dẫn sử dụng',
-            'privacy_policy': 'Chính sách bảo mật',
-            'terms': 'Điều khoản dịch vụ',
-            'follow_us': 'Theo dõi chúng tôi',
-            'quick_links': 'Liên kết nhanh',
-            'remember_me': 'Ghi nhớ đăng nhập',
-            'forgot_password': 'Quên mật khẩu?',
-            'no_account': 'Chưa có tài khoản?',
-            'sign_up_now': 'Đăng ký ngay',
-            'have_account': 'Đã có tài khoản?',
-            'sign_in': 'Đăng nhập'
+        // Load language preference
+        const savedLang = localStorage.getItem('lang');
+        if (savedLang) {
+            this.setLanguage(savedLang);
         }
-    };
+    }
 
-    // Function to update text content based on selected language
-    function updateLanguage(lang) {
-        const elements = document.querySelectorAll('[data-translate]');
-        elements.forEach(element => {
+    setupEventListeners() {
+        document.addEventListener('DOMContentLoaded', () => {
+            // Theme toggle
+            const themeToggle = document.getElementById('theme-toggle');
+            themeToggle?.addEventListener('click', () => {
+                this.toggleTheme();
+            });
+
+            // Language toggle
+            const langToggle = document.getElementById('lang-toggle');
+            langToggle?.addEventListener('click', () => {
+                this.toggleLanguage();
+            });
+
+            // Handle dynamic content
+            const observer = new MutationObserver(() => {
+                this.updateUI();
+            });
+
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        });
+    }
+
+    setTheme(theme) {
+        this.currentTheme = theme;
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        this.updateThemeUI();
+    }
+
+    toggleTheme() {
+        const newTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
+        this.setTheme(newTheme);
+    }
+
+    setLanguage(lang) {
+        this.currentLang = lang;
+        localStorage.setItem('lang', lang);
+        this.updateLanguageUI();
+    }
+
+    toggleLanguage() {
+        const newLang = this.currentLang === 'vi' ? 'en' : 'vi';
+        this.setLanguage(newLang);
+    }
+
+    translate(key) {
+        return this.translations[this.currentLang][key] || key;
+    }
+
+    updateUI() {
+        this.updateThemeUI();
+        this.updateLanguageUI();
+    }
+
+    updateThemeUI() {
+        // Update theme toggle button
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            const icon = themeToggle.querySelector('i');
+            if (icon) {
+                icon.className = this.currentTheme === 'dark' ? 
+                    'fas fa-sun' : 
+                    'fas fa-moon';
+            }
+        }
+
+        // Update theme-specific styles
+        document.body.classList.toggle('dark', this.currentTheme === 'dark');
+    }
+
+    updateLanguageUI() {
+        // Update all elements with data-translate attribute
+        document.querySelectorAll('[data-translate]').forEach(element => {
             const key = element.getAttribute('data-translate');
-            if (translations[lang] && translations[lang][key]) {
-                if (element.tagName.toLowerCase() === 'input' && element.type === 'submit') {
-                    element.value = translations[lang][key];
-                } else {
-                    element.textContent = translations[lang][key];
-                }
+            if (key) {
+                element.textContent = this.translate(key);
             }
         });
 
-        // Update language selector text
-        const currentLangSpan = document.querySelector('.current-lang');
-        if (currentLangSpan) {
-            currentLangSpan.textContent = lang === 'vi' ? 'Tiếng Việt' : 'English';
+        // Update language toggle button
+        const langToggle = document.getElementById('lang-toggle');
+        if (langToggle) {
+            langToggle.textContent = this.currentLang.toUpperCase();
         }
-
-        localStorage.setItem('language', lang);
-
-        // Update language options visibility
-        document.querySelectorAll('.lang-option').forEach(option => {
-            const checkIcon = option.querySelector('.fa-check');
-            if (checkIcon) {
-                checkIcon.style.opacity = option.getAttribute('data-lang') === lang ? '1' : '0';
-            }
-        });
     }
+}
 
-    // Initialize language
-    const savedLang = localStorage.getItem('language') || 'vi';
-    updateLanguage(savedLang);
-
-    // Language change handlers
-    document.querySelectorAll('.lang-option').forEach(option => {
-        option.addEventListener('click', (e) => {
-            e.preventDefault();
-            const lang = option.getAttribute('data-lang');
-            updateLanguage(lang);
-        });
-    });
-
-    // Mobile language selector
-    const mobileLangSelect = document.getElementById('mobileLangSelect');
-    if (mobileLangSelect) {
-        mobileLangSelect.value = savedLang;
-        mobileLangSelect.addEventListener('change', (e) => {
-            updateLanguage(e.target.value);
-        });
-    }
-});
+// Create and export theme manager instance
+const themeManager = new ThemeManager();
+export default themeManager;
