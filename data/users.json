@@ -1,3 +1,68 @@
 {
-  "users": []
+    "users": [
+        {
+            "id": "user_1",
+            "username": "admin",
+            "email": "admin@skymodhack.com",
+            "password": "admin123",
+            "isAdmin": true,
+            "balance": 1000000,
+            "created_at": "2024-01-01T00:00:00.000Z"
+        },
+        {
+            "id": "user_2",
+            "username": "demo",
+            "email": "demo@skymodhack.com",
+            "password": "demo123",
+            "isAdmin": false,
+            "balance": 500000,
+            "created_at": "2024-01-01T00:00:00.000Z"
+        }
+    ],
+    "orders": [
+        {
+            "id": "order_1",
+            "userId": "user_2",
+            "items": [
+                {
+                    "id": "pkg_1",
+                    "name": "PUBG Hack Premium",
+                    "price": 200000,
+                    "quantity": 1
+                }
+            ],
+            "total": 200000,
+            "status": "completed",
+            "created_at": "2024-01-02T00:00:00.000Z"
+        }
+    ],
+    "topups": [
+        {
+            "id": "topup_1",
+            "userId": "user_2",
+            "amount": 500000,
+            "method": "bank",
+            "transactionId": "VCB123456789",
+            "status": "completed",
+            "created_at": "2024-01-01T00:00:00.000Z"
+        }
+    ],
+    "keys": [
+        {
+            "id": "key_1",
+            "code": "ABCD-1234-EFGH-5678",
+            "packageId": "pkg_1",
+            "userId": "user_2",
+            "status": "used",
+            "created_at": "2024-01-02T00:00:00.000Z",
+            "usedAt": "2024-01-02T00:00:00.000Z"
+        },
+        {
+            "id": "key_2",
+            "code": "WXYZ-9876-IJKL-5432",
+            "packageId": "pkg_1",
+            "status": "active",
+            "created_at": "2024-01-02T00:00:00.000Z"
+        }
+    ]
 }
